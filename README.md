@@ -4,8 +4,9 @@ Generic utility to find out differences between any two objects of the same type
 Objective is to make it easy for developers to find out delta between objects and create reports.
 
 Goal: 
-Single line of code required by a developer for calculating diff. 
-Single line of code required by a developer for preparing a report.
+Minimal effort by developer to compute delta and get report in any given format.
+Highly customizable framework for developers to adapt and extend.
+
 
 To dos:
 1. Document usage examples
