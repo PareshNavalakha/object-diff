@@ -17,7 +17,7 @@ To dos:
 
 ## Getting Started
 
-DiffComputeEngine.getInstance().evaluateAndExecute(before, after, null));
+DiffComputeEngine.getInstance().findDifferences(before, after));
 
 ### Prerequisites
 
