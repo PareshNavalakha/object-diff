@@ -115,9 +115,7 @@ public class ReflectionUtil {
 
             try {
                 methodResponse = method.invoke(object, (Object[]) null);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
+            } catch (IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
             }
             if (methodResponse == null && object.getClass().equals(String.class)) {

@@ -36,7 +36,7 @@ class ComplexObjectDiffCalculator extends DiffCalculator {
     }
 
     @Override
-    public int getPriority() {
+    public int getOrder() {
         return 0;
     }
 
@@ -45,13 +45,4 @@ class ComplexObjectDiffCalculator extends DiffCalculator {
         return !ReflectionUtil.isBaseClass(object.getClass());
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
 }

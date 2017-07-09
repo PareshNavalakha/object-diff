@@ -10,10 +10,6 @@ import java.util.List;
 
 public class DiffCalculationEngineTest {
 
-    @Before
-    public void setUp() throws Exception {
-    }
-
     @Test
     public void test() {
         printResults(DiffComputeEngine.getInstance().evaluateAndExecute(getBefore(), getAfter(), null));

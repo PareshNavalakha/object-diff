@@ -48,7 +48,7 @@ class MapDiffCalculator extends DiffCalculator {
     }
 
     @Override
-    public int getPriority() {
+    public int getOrder() {
         return 1;
     }
 
@@ -57,14 +57,5 @@ class MapDiffCalculator extends DiffCalculator {
         return ReflectionUtil.isInstanceOfMap(object);
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
 }
 

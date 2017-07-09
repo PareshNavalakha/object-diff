@@ -10,7 +10,7 @@ import java.util.*;
  * Created by Admin on 02-07-2017.
  */
 public class DiffComputeEngine {
-    private static DiffComputeEngine ourInstance = new DiffComputeEngine();
+    private static final DiffComputeEngine ourInstance = new DiffComputeEngine();
 
     public static DiffComputeEngine getInstance() {
         return ourInstance;
@@ -18,19 +18,14 @@ public class DiffComputeEngine {
 
     private DiffComputeEngine() {
     }
-    private List<DiffCalculator> calculators = new ArrayList<DiffCalculator>();
+    private final List<DiffCalculator> calculators = new ArrayList<>();
 
-    public void registerDeltaCalculator(DiffCalculator deltaCalculator) {
+    private void registerDeltaCalculator(DiffCalculator deltaCalculator) {
         calculators.add(deltaCalculator);
         deltaCalculator.registerDeltaCalculationEngine(this);
-        Collections.sort(calculators,(DiffCalculator o1, DiffCalculator o2) -> o2.getPriority()-o1.getPriority() );
+        calculators.sort((DiffCalculator o1, DiffCalculator o2) -> o2.getOrder() - o1.getOrder());
 
     }
-
-    public List<Diff> calculateDelta(Object before, Object after) {
-        return null;
-    }
-
 
     //Below registration of Generic Diff Calculators needs to move out.
     //To be decided precisely where. Do not expect library users to explicitly configure prior to using the functions
@@ -43,7 +38,11 @@ public class DiffComputeEngine {
 
     }
 
-    public List<Diff> evaluateAndExecute(Object before, Object after, String description) {
+    public List<Diff> findDifferences(Object before, Object after) {
+       return evaluateAndExecute(before, after, null);
+    }
+
+    List<Diff> evaluateAndExecute(Object before, Object after, String description) {
         for (DiffCalculator calculator : calculators) {
             try {
 
@@ -51,7 +50,7 @@ public class DiffComputeEngine {
                     return calculator.apply(before, after, description);
                 }
             } catch (BothAreNullException e) {
-                return Arrays.asList(new DiffBuilder().hasNotChanged().build());
+                return Collections.singletonList(new DiffBuilder().hasNotChanged().build());
             }
         }
 

@@ -85,7 +85,7 @@ class CollectionDiffCalculator extends DiffCalculator {
     }
 
     @Override
-    public int getPriority() {
+    public int getOrder() {
         return 1;
     }
 
@@ -94,14 +94,5 @@ class CollectionDiffCalculator extends DiffCalculator {
         return ReflectionUtil.isInstanceOfCollection(object);
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
 }
 
