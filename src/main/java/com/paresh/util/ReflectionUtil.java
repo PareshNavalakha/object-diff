@@ -7,7 +7,7 @@ import com.paresh.constants.Constants;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +41,7 @@ public class ReflectionUtil {
     }
 
     public static List<Method> fetchAllGetterMethods(Class clazz) {
-        List<Method> methods = new ArrayList<>();
+        List<Method> methods = new LinkedList<>();
         for (Method method : clazz.getMethods()) {
             if (isGetterMethod(method) && !isIgnoreMethod(method)) {
                 methods.add(method);
@@ -84,7 +84,7 @@ public class ReflectionUtil {
     }
 
     public static List<String> getMethodDescriptions(List<Method> methods) {
-        List<String> methodDescriptions = new ArrayList<>();
+        List<String> methodDescriptions = new LinkedList<>();
         if (methods != null) {
             for (Method method : methods) {
                 methodDescriptions.add(getDescription(method));

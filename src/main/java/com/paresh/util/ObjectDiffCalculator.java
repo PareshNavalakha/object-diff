@@ -3,7 +3,7 @@ package com.paresh.util;
 import com.paresh.dto.Diff;
 import com.paresh.dto.DiffBuilder;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -11,7 +11,7 @@ public class ObjectDiffCalculator extends DiffCalculator {
 
     @Override
     public List<Diff> apply(Object before, Object after, String description) {
-        List<Diff> diffs = new ArrayList<>();
+        List<Diff> diffs = new LinkedList<>();
         if (before == null && after != null) {
             diffs.add(new DiffBuilder().isAdded().setAfterValue(after).setFieldDescription(description).build());
         } else if (before != null && after == null) {

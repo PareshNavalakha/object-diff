@@ -4,7 +4,7 @@ import com.paresh.cache.ClassMetadataCache;
 import com.paresh.dto.ChangeType;
 import com.paresh.dto.Diff;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 class CollectionDiffCalculator extends DiffCalculator {
     @Override
     public List<Diff> apply(Object beforeObject, Object afterObject, String description) {
-        List<Diff> diffs = new ArrayList<>();
+        List<Diff> diffs = new LinkedList<>();
         Collection before = (Collection) beforeObject;
         Collection after= (Collection) afterObject;
 

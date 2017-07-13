@@ -18,7 +18,7 @@ public class DiffComputeEngine {
 
     private DiffComputeEngine() {
     }
-    private final List<DiffCalculator> calculators = new ArrayList<>();
+    private final List<DiffCalculator> calculators = new LinkedList<>();
 
     private void registerDeltaCalculator(DiffCalculator deltaCalculator) {
         calculators.add(deltaCalculator);

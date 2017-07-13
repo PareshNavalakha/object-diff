@@ -3,7 +3,7 @@ package com.paresh.util;
 import com.paresh.dto.ChangeType;
 import com.paresh.dto.Diff;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -15,7 +15,7 @@ class MapDiffCalculator extends DiffCalculator {
 
     @Override
     public List<Diff> apply(Object beforeObject, Object afterObject, String description) {
-        List<Diff> diffs = new ArrayList<>();
+        List<Diff> diffs = new LinkedList<>();
         Map before = (Map) beforeObject;
         Map after = (Map) afterObject;
 

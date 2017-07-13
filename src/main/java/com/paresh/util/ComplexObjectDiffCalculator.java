@@ -5,7 +5,7 @@ import com.paresh.dto.Diff;
 import com.paresh.dto.DiffBuilder;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -15,7 +15,7 @@ class ComplexObjectDiffCalculator extends DiffCalculator {
 
     @Override
     public List<Diff> apply(Object before, Object after, String description) {
-        List<Diff> diffs = new ArrayList<>();
+        List<Diff> diffs = new LinkedList<>();
 
         if (before.equals(after)) {
             diffs.add(new DiffBuilder().hasNotChanged().setBeforeValue(before).setAfterValue(after).setFieldDescription(ClassMetadataCache.getInstance().getDescription(before.getClass())).build());
@@ -25,7 +25,7 @@ class ComplexObjectDiffCalculator extends DiffCalculator {
 
             List<Method> methods = ClassMetadataCache.getInstance().getAllGetterMethods(before.getClass());
             if (methods != null) {
-                List<Diff> childDiffs = new ArrayList<>();
+                List<Diff> childDiffs = new LinkedList<>();
                 diff.setChildDiffs(childDiffs);
                 for (Method method : methods) {
                     childDiffs.addAll(getDiffComputeEngine().evaluateAndExecute(ReflectionUtil.getMethodResponse(method, before), ReflectionUtil.getMethodResponse(method, after), ClassMetadataCache.getInstance().getMethodDescription(before.getClass(), method)));
