@@ -4,6 +4,7 @@ import com.paresh.cache.ClassMetadataCache;
 import com.paresh.dto.ChangeType;
 import com.paresh.dto.Diff;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Collection;
 import java.util.List;
@@ -45,7 +46,11 @@ class CollectionDiffCalculator extends DiffCalculator {
                 } else {
                     temp = getDiffComputeEngine().evaluateAndExecute(getCorrespondingObject(object, before),object,description);
                 }
-                diffs.addAll(temp.stream().filter(delta -> (!delta.getChangeType().equals(ChangeType.NO_CHANGE) && !delta.getChangeType().equals(ChangeType.UPDATED))).collect(Collectors.toList()));
+                if(temp != null && temp.size()>0)
+                {
+                    temp.removeIf(delta -> delta.getChangeType().equals(ChangeType.NO_CHANGE) || delta.getChangeType().equals(ChangeType.UPDATED));
+                    diffs.addAll(temp);
+                }
             }
         }
         return diffs;
