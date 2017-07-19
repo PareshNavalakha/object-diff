@@ -7,6 +7,7 @@ import com.paresh.dto.DiffBuilder;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Admin on 01-07-2017.
@@ -17,13 +18,17 @@ class ComplexObjectDiffCalculator extends DiffCalculator {
     public List<Diff> apply(Object before, Object after, String description) {
         List<Diff> diffs = new LinkedList<>();
 
-        if (before.equals(after)) {
+        if (before == null && after != null) {
+            diffs.add(new DiffBuilder().isAdded().setAfterValue(after).setFieldDescription(description).build());
+        } else if (before != null && after == null) {
+            diffs.add(new DiffBuilder().isDeleted().setBeforeValue(before).setFieldDescription(description).build());
+        } else if (before.equals(after)) {
             diffs.add(new DiffBuilder().hasNotChanged().setBeforeValue(before).setAfterValue(after).setFieldDescription(ClassMetadataCache.getInstance().getDescription(before.getClass())).build());
         } else {
             Diff diff = new DiffBuilder().isUpdated().setBeforeValue(before).setAfterValue(after).setFieldDescription(ClassMetadataCache.getInstance().getDescription(before.getClass())).build();
             diffs.add(diff);
 
-            List<Method> methods = ClassMetadataCache.getInstance().getAllGetterMethods(before.getClass());
+            Set<Method> methods = ClassMetadataCache.getInstance().getAllGetterMethods(before.getClass());
             if (methods != null) {
                 List<Diff> childDiffs = new LinkedList<>();
                 diff.setChildDiffs(childDiffs);

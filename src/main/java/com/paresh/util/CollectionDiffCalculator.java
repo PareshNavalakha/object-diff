@@ -4,11 +4,9 @@ import com.paresh.cache.ClassMetadataCache;
 import com.paresh.dto.ChangeType;
 import com.paresh.dto.Diff;
 
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by Admin on 01-07-2017.
@@ -18,22 +16,22 @@ class CollectionDiffCalculator extends DiffCalculator {
     public List<Diff> apply(Object beforeObject, Object afterObject, String description) {
         List<Diff> diffs = new LinkedList<>();
         Collection before = (Collection) beforeObject;
-        Collection after= (Collection) afterObject;
+        Collection after = (Collection) afterObject;
 
         if (!isNullOrEmpty(before) && isNullOrEmpty(after)) {
             for (Object object : before) {
-                diffs.addAll(getDiffComputeEngine().evaluateAndExecute(object, null,description));
+                diffs.addAll(getDiffComputeEngine().evaluateAndExecute(object, null, description));
             }
         } else if (isNullOrEmpty(before) && !isNullOrEmpty(after)) {
             for (Object object : after) {
-                diffs.addAll(getDiffComputeEngine().evaluateAndExecute(null, object,description));
+                diffs.addAll(getDiffComputeEngine().evaluateAndExecute(null, object, description));
             }
         } else {
             for (Object object : before) {
                 if (ReflectionUtil.isBaseClass(object.getClass())) {
-                    diffs.addAll(getDiffComputeEngine().evaluateAndExecute(object, findCorrespondingObject(object, after),description));
+                    diffs.addAll(getDiffComputeEngine().evaluateAndExecute(object, findCorrespondingObject(object, after), description));
                 } else {
-                    diffs.addAll(getDiffComputeEngine().evaluateAndExecute(object, getCorrespondingObject(object, after),description));
+                    diffs.addAll(getDiffComputeEngine().evaluateAndExecute(object, getCorrespondingObject(object, after), description));
                 }
 
             }
@@ -42,12 +40,11 @@ class CollectionDiffCalculator extends DiffCalculator {
             //Now we need to ignore UPDATED and UNCHANGED for duplicates
             for (Object object : after) {
                 if (ReflectionUtil.isBaseClass(object.getClass())) {
-                    temp = getDiffComputeEngine().evaluateAndExecute(findCorrespondingObject(object, before),object,description);
+                    temp = getDiffComputeEngine().evaluateAndExecute(findCorrespondingObject(object, before), object, description);
                 } else {
-                    temp = getDiffComputeEngine().evaluateAndExecute(getCorrespondingObject(object, before),object,description);
+                    temp = getDiffComputeEngine().evaluateAndExecute(getCorrespondingObject(object, before), object, description);
                 }
-                if(temp != null && temp.size()>0)
-                {
+                if (temp != null && temp.size() > 0) {
                     temp.removeIf(delta -> delta.getChangeType().equals(ChangeType.NO_CHANGE) || delta.getChangeType().equals(ChangeType.UPDATED));
                     diffs.addAll(temp);
                 }
@@ -68,7 +65,7 @@ class CollectionDiffCalculator extends DiffCalculator {
     }
 
     private Object getCorrespondingObject(Object object, Collection collection) {
-        if (object != null  &&  !isNullOrEmpty(collection)) {
+        if (object != null && !isNullOrEmpty(collection)) {
             Object identifier = ClassMetadataCache.getInstance().getIdentifier(object);
             Object comparisonIdentifier;
             if (identifier != null) {

@@ -10,12 +10,12 @@ import java.util.List;
 public class Diff {
     private ChangeType changeType;
     private String fieldDescription;
-    private Object before;
-    private Object after;
+    private String before;
+    private String after;
     private String identifier;
     private List<Diff> childDiffs;
 
-    public Diff(ChangeType changeType, String fieldDescription, Object before, Object after, String identifier) {
+    public Diff(ChangeType changeType, String fieldDescription, String before, String after, String identifier) {
         this.changeType = changeType;
         this.fieldDescription = fieldDescription;
         this.before = before;
@@ -47,19 +47,19 @@ public class Diff {
         this.fieldDescription = fieldDescription;
     }
 
-    public Object getBefore() {
+    public String getBefore() {
         return before;
     }
 
-    public void setBefore(Object before) {
+    public void setBefore(String before) {
         this.before = before;
     }
 
-    public Object getAfter() {
+    public String getAfter() {
         return after;
     }
 
-    public void setAfter(Object after) {
+    public void setAfter(String after) {
         this.after = after;
     }
 
@@ -73,22 +73,23 @@ public class Diff {
 
     @Override
     public String toString() {
-        return "{" +
+        return identifier != null && !identifier.isEmpty() ? "{" +
                 "changeType=" + changeType +
-                ", fieldDescription='" + fieldDescription + '\'' +
+                ", fieldDescription=" + fieldDescription + " " +
                 ", before=" + before +
                 ", after=" + after +
-                ", identifier='" + identifier +
-                + '\'' + getChildDeltaString() +
+                ", identifier=" + identifier +
+                '}' : "changeType=" + changeType +
+                ", fieldDescription=" + fieldDescription + " " +
+                ", before=" + before +
+                ", after=" + after +
                 '}';
     }
-    private String getChildDeltaString()
-    {
+
+    private String getChildDeltaString() {
         StringBuilder stringBuilder = new StringBuilder(Constants.BLANK);
-        if(childDiffs !=null && childDiffs.size()>0)
-        {
-            for(Diff child: childDiffs)
-            {
+        if (childDiffs != null && childDiffs.size() > 0) {
+            for (Diff child : childDiffs) {
                 stringBuilder.append(child);
             }
         }

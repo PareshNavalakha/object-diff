@@ -1,31 +1,20 @@
 package com.paresh.util;
 
+import com.paresh.cache.ClassMetadataCache;
 import com.paresh.dto.Diff;
 import com.paresh.dto.DiffBuilder;
 import com.paresh.exception.BothAreNullException;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by Admin on 02-07-2017.
  */
 public class DiffComputeEngine {
     private static final DiffComputeEngine ourInstance = new DiffComputeEngine();
-
-    public static DiffComputeEngine getInstance() {
-        return ourInstance;
-    }
-
-    private DiffComputeEngine() {
-    }
     private final List<DiffCalculator> calculators = new LinkedList<>();
-
-    private void registerDeltaCalculator(DiffCalculator deltaCalculator) {
-        calculators.add(deltaCalculator);
-        deltaCalculator.registerDeltaCalculationEngine(this);
-        calculators.sort((DiffCalculator o1, DiffCalculator o2) -> o2.getOrder() - o1.getOrder());
-
-    }
 
     //Below registration of Generic Diff Calculators needs to move out.
     //To be decided precisely where. Do not expect library users to explicitly configure prior to using the functions
@@ -38,8 +27,24 @@ public class DiffComputeEngine {
 
     }
 
+    private DiffComputeEngine() {
+    }
+
+    public static DiffComputeEngine getInstance() {
+        return ourInstance;
+    }
+
+    private void registerDeltaCalculator(DiffCalculator deltaCalculator) {
+        calculators.add(deltaCalculator);
+        deltaCalculator.registerDeltaCalculationEngine(this);
+        calculators.sort((DiffCalculator o1, DiffCalculator o2) -> o2.getOrder() - o1.getOrder());
+
+    }
+
     public List<Diff> findDifferences(Object before, Object after) {
-       return evaluateAndExecute(before, after, null);
+        List<Diff> returnValue = evaluateAndExecute(before, after, null);
+        ClassMetadataCache.getInstance().clearCache();
+        return returnValue;
     }
 
     List<Diff> evaluateAndExecute(Object before, Object after, String description) {
@@ -54,7 +59,7 @@ public class DiffComputeEngine {
             }
         }
 
-        System.out.println("Could not find relevant Calculator for " + before +" "+after+" "+description);
+        System.out.println("Could not find relevant Calculator for " + before + " " + after + " " + description);
         return null;
     }
 

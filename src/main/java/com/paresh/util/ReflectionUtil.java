@@ -7,8 +7,8 @@ import com.paresh.constants.Constants;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.LinkedList;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -83,17 +83,6 @@ public class ReflectionUtil {
         return returnValue;
     }
 
-    public static List<String> getMethodDescriptions(List<Method> methods) {
-        List<String> methodDescriptions = new LinkedList<>();
-        if (methods != null) {
-            for (Method method : methods) {
-                methodDescriptions.add(getDescription(method));
-            }
-        }
-        return methodDescriptions;
-    }
-
-
     public static Method getIdentifierMethod(List<Method> methods) {
         Method identifierMethod = null;
         if (methods != null) {
@@ -111,7 +100,7 @@ public class ReflectionUtil {
     public static Object getMethodResponse(Method method, Object object) {
         Object methodResponse = null;
 
-        if (object != null && method!=null) {
+        if (object != null && method != null) {
 
             try {
                 methodResponse = method.invoke(object, (Object[]) null);

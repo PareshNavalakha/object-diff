@@ -22,21 +22,21 @@ class MapDiffCalculator extends DiffCalculator {
 
         if (!isNullOrEmpty(before) && isNullOrEmpty(after)) {
             for (Object object : before.keySet()) {
-                diffs.addAll(getDiffComputeEngine().evaluateAndExecute( before.get(object), null,description));
+                diffs.addAll(getDiffComputeEngine().evaluateAndExecute(before.get(object), null, description));
             }
         } else if (isNullOrEmpty(before) && !isNullOrEmpty(after)) {
             for (Object object : after.keySet()) {
-                diffs.addAll(getDiffComputeEngine().evaluateAndExecute(null, after.get(object),description));
+                diffs.addAll(getDiffComputeEngine().evaluateAndExecute(null, after.get(object), description));
             }
         } else {
             for (Object object : before.keySet()) {
-                diffs.addAll(getDiffComputeEngine().evaluateAndExecute(before.get(object), after.get(object),description));
+                diffs.addAll(getDiffComputeEngine().evaluateAndExecute(before.get(object), after.get(object), description));
             }
-            List<Diff> temp ;
+            List<Diff> temp;
 
             //Now we need to ignore UPDATED and UNCHANGED for duplicates
             for (Object object : after.keySet()) {
-                temp = getDiffComputeEngine().evaluateAndExecute(before.get(object), after.get(object),description);
+                temp = getDiffComputeEngine().evaluateAndExecute(before.get(object), after.get(object), description);
                 diffs.addAll(temp.stream().filter(delta -> (!delta.getChangeType().equals(ChangeType.NO_CHANGE) && !delta.getChangeType().equals(ChangeType.UPDATED))).collect(Collectors.toList()));
             }
         }

@@ -114,7 +114,7 @@ public class DiffCalculationEngineTest {
 
         @Override
         public String toString() {
-            return "Address{" + "city='" + city + '\'' + '}';
+            return "Address{" + "city=" + city + '}';
         }
 
         @Override
@@ -191,7 +191,7 @@ public class DiffCalculationEngineTest {
 
         @Override
         public String toString() {
-            return "Person{" + "name='" + name + '\'' + ", age=" + age + ", addresses=" + addresses + '}';
+            return "Person{" + "name=" + name + '}';
         }
 
     }

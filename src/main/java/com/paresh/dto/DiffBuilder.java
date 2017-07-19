@@ -2,6 +2,7 @@ package com.paresh.dto;
 
 
 import com.paresh.cache.ClassMetadataCache;
+import com.paresh.constants.Constants;
 
 /**
  * Created by Admin on 27-06-2017.
@@ -65,7 +66,7 @@ public class DiffBuilder {
             }
         }
 
-        return new Diff(changeType, fieldDescription, before, after, identifier);
+        return new Diff(changeType, fieldDescription, before == null ? Constants.BLANK : before.toString(), after == null ? Constants.BLANK : after.toString(), identifier);
     }
 
 }
