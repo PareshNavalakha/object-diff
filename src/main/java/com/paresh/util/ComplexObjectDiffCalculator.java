@@ -23,9 +23,9 @@ class ComplexObjectDiffCalculator extends DiffCalculator {
             diffs.add(new DiffBuilder().isAdded().setAfterValue(after).setFieldDescription(description).build());
         } else if (before != null && after == null) {
             diffs.add(new DiffBuilder().isDeleted().setBeforeValue(before).setFieldDescription(description).build());
-        } else if (before.equals(after)) {
+        } else if (before != null && before.equals(after)) {
             diffs.add(new DiffBuilder().hasNotChanged().setBeforeValue(before).setAfterValue(after).setFieldDescription(ClassMetadataCache.getInstance().getDescription(before.getClass())).build());
-        } else {
+        } else if (before != null && after != null) {
             Diff diff = new DiffBuilder().isUpdated().setBeforeValue(before).setAfterValue(after).setFieldDescription(ClassMetadataCache.getInstance().getDescription(before.getClass())).build();
             diffs.add(diff);
 

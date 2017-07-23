@@ -56,7 +56,7 @@ public class DiffCalculationEngineTest {
 
     }
 
-    class PersonBuilder {
+    private static class PersonBuilder {
         private String name;
         private int age;
         private List<Address> addresses;
@@ -86,7 +86,7 @@ public class DiffCalculationEngineTest {
 
     }
 
-    class AddressBuilder {
+    private static class AddressBuilder {
         private String city;
 
         public AddressBuilder setCity(String city) {
@@ -102,7 +102,7 @@ public class DiffCalculationEngineTest {
 
     }
 
-    class Address {
+    private static class Address {
         private String city;
 
         @Identifier
@@ -137,7 +137,7 @@ public class DiffCalculationEngineTest {
         }
     }
 
-    class Person {
+    private static class Person {
         private String name;
         private int age;
         List<Address> addresses;
