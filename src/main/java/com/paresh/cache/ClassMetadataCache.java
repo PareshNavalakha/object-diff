@@ -45,11 +45,9 @@ public class ClassMetadataCache {
             List<Method> methods = ReflectionUtil.fetchAllGetterMethods(clazz);
             Map<Method, String> classMethods = new HashMap<>();
             if (methods != null && methods.size() > 0) {
-                for (Method method : methods) {
-                    classMethods.put(method, ReflectionUtil.getDescription(method));
-                }
+                methods.forEach(method -> classMethods.put(method, ReflectionUtil.getDescription(method)));
             }
-            classMetadata.setClassMethods(classMethods);
+            classMetadata.setClassAttributes(classMethods);
             //An identifier method has to be one of the Getter methods
             classMetadata.setIdentifierMethod(ReflectionUtil.getIdentifierMethod(methods));
             classMetaDataMap.put(clazz, classMetadata);
@@ -58,7 +56,7 @@ public class ClassMetadataCache {
 
     public String getMethodDescription(Class clazz, Method method) {
         buildMetaDataIfNotAvailable(clazz);
-        return classMetaDataMap.get(clazz).getClassMethods().get(method);
+        return classMetaDataMap.get(clazz).getClassAttributes().get(method);
     }
 
 
@@ -80,7 +78,7 @@ public class ClassMetadataCache {
 
     public Set<Method> getAllGetterMethods(Class clazz) {
         buildMetaDataIfNotAvailable(clazz);
-        return classMetaDataMap.get(clazz).getClassMethods().keySet();
+        return classMetaDataMap.get(clazz).getClassAttributes().keySet();
     }
 
     public String getIdentifierString(Object object) {

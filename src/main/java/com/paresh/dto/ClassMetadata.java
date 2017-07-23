@@ -8,16 +8,16 @@ import java.util.Map;
  */
 public class ClassMetadata {
 
-    private Map<Method, String> classMethods;
+    private Map<Method, String> classAttributes;
     private String classDescription;
     private Method identifierMethod;
 
-    public Map<Method, String> getClassMethods() {
-        return classMethods;
+    public Map<Method, String> getClassAttributes() {
+        return classAttributes;
     }
 
-    public void setClassMethods(Map<Method, String> classMethods) {
-        this.classMethods = classMethods;
+    public void setClassAttributes(Map<Method, String> classMethods) {
+        this.classAttributes = classMethods;
     }
 
     public Method getIdentifierMethod() {

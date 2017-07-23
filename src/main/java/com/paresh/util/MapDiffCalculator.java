@@ -6,7 +6,6 @@ import com.paresh.dto.Diff;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Created by Admin on 01-07-2017.
@@ -21,24 +20,20 @@ class MapDiffCalculator extends DiffCalculator {
 
 
         if (!isNullOrEmpty(before) && isNullOrEmpty(after)) {
-            for (Object object : before.keySet()) {
-                diffs.addAll(getDiffComputeEngine().evaluateAndExecute(before.get(object), null, description));
-            }
+            before.forEach((key, value) -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(value, null, description)));
         } else if (isNullOrEmpty(before) && !isNullOrEmpty(after)) {
-            for (Object object : after.keySet()) {
-                diffs.addAll(getDiffComputeEngine().evaluateAndExecute(null, after.get(object), description));
-            }
+            after.forEach((key, value) -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(null, value, description)));
         } else {
-            for (Object object : before.keySet()) {
-                diffs.addAll(getDiffComputeEngine().evaluateAndExecute(before.get(object), after.get(object), description));
-            }
-            List<Diff> temp;
+            before.forEach((key, value) -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(value, after.get(key), description)));
 
-            //Now we need to ignore UPDATED and UNCHANGED for duplicates
-            for (Object object : after.keySet()) {
-                temp = getDiffComputeEngine().evaluateAndExecute(before.get(object), after.get(object), description);
-                diffs.addAll(temp.stream().filter(delta -> (!delta.getChangeType().equals(ChangeType.NO_CHANGE) && !delta.getChangeType().equals(ChangeType.UPDATED))).collect(Collectors.toList()));
-            }
+            List<Diff> temp = new LinkedList<>();
+
+            //Now we need to ignore all besides DELETED items
+            before.forEach((key, value) -> temp.addAll(getDiffComputeEngine().evaluateAndExecute(before.get(key), value, description)));
+
+            temp.removeIf(delta -> delta.getChangeType().equals(ChangeType.NO_CHANGE)||delta.getChangeType().equals(ChangeType.UPDATED));
+            diffs.addAll(temp);
+
         }
         return diffs;
     }

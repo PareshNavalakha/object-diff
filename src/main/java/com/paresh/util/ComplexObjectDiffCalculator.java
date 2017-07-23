@@ -17,8 +17,9 @@ class ComplexObjectDiffCalculator extends DiffCalculator {
     @Override
     public List<Diff> apply(Object before, Object after, String description) {
         List<Diff> diffs = new LinkedList<>();
-
-        if (before == null && after != null) {
+        if (before == null && after == null) {
+            diffs.add(new DiffBuilder().hasNotChanged().setFieldDescription(description).build());
+        } else if (before == null && after != null) {
             diffs.add(new DiffBuilder().isAdded().setAfterValue(after).setFieldDescription(description).build());
         } else if (before != null && after == null) {
             diffs.add(new DiffBuilder().isDeleted().setBeforeValue(before).setFieldDescription(description).build());
@@ -32,9 +33,7 @@ class ComplexObjectDiffCalculator extends DiffCalculator {
             if (methods != null) {
                 List<Diff> childDiffs = new LinkedList<>();
                 diff.setChildDiffs(childDiffs);
-                for (Method method : methods) {
-                    childDiffs.addAll(getDiffComputeEngine().evaluateAndExecute(ReflectionUtil.getMethodResponse(method, before), ReflectionUtil.getMethodResponse(method, after), ClassMetadataCache.getInstance().getMethodDescription(before.getClass(), method)));
-                }
+                methods.forEach(method -> childDiffs.addAll(getDiffComputeEngine().evaluateAndExecute(ReflectionUtil.getMethodResponse(method, before), ReflectionUtil.getMethodResponse(method, after), ClassMetadataCache.getInstance().getMethodDescription(before.getClass(), method))));
             }
         }
         return diffs;

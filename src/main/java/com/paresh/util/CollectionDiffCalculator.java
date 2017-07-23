@@ -19,13 +19,11 @@ class CollectionDiffCalculator extends DiffCalculator {
         Collection after = (Collection) afterObject;
 
         if (!isNullOrEmpty(before) && isNullOrEmpty(after)) {
-            for (Object object : before) {
-                diffs.addAll(getDiffComputeEngine().evaluateAndExecute(object, null, description));
-            }
+            before.forEach(object -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(object, null, description)));
+
         } else if (isNullOrEmpty(before) && !isNullOrEmpty(after)) {
-            for (Object object : after) {
-                diffs.addAll(getDiffComputeEngine().evaluateAndExecute(null, object, description));
-            }
+            after.forEach(object -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(object, null, description)));
+
         } else {
             for (Object object : before) {
                 if (ReflectionUtil.isBaseClass(object.getClass())) {
@@ -35,19 +33,20 @@ class CollectionDiffCalculator extends DiffCalculator {
                 }
 
             }
-            List<Diff> temp;
+            List<Diff> temp = new LinkedList<>();
 
-            //Now we need to ignore UPDATED and UNCHANGED for duplicates
+            //Now we need to ignore all besides DELETED items
             for (Object object : after) {
                 if (ReflectionUtil.isBaseClass(object.getClass())) {
-                    temp = getDiffComputeEngine().evaluateAndExecute(findCorrespondingObject(object, before), object, description);
+                    temp.addAll(getDiffComputeEngine().evaluateAndExecute(findCorrespondingObject(object, before), object, description));
                 } else {
-                    temp = getDiffComputeEngine().evaluateAndExecute(getCorrespondingObject(object, before), object, description);
+                    temp.addAll(getDiffComputeEngine().evaluateAndExecute(getCorrespondingObject(object, before), object, description));
                 }
-                if (temp != null && temp.size() > 0) {
-                    temp.removeIf(delta -> delta.getChangeType().equals(ChangeType.NO_CHANGE) || delta.getChangeType().equals(ChangeType.UPDATED));
-                    diffs.addAll(temp);
-                }
+
+            }
+            if (temp != null && temp.size() > 0) {
+                temp.removeIf(delta -> delta.getChangeType().equals(ChangeType.NO_CHANGE)||delta.getChangeType().equals(ChangeType.UPDATED));
+                diffs.addAll(temp);
             }
         }
         return diffs;

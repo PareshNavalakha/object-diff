@@ -2,7 +2,6 @@ package com.paresh.util;
 
 import com.paresh.annotations.Identifier;
 import com.paresh.dto.Diff;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -18,6 +17,7 @@ public class DiffCalculationEngineTest {
     private List<Person> getBefore() {
         List<Address> addressList1 = Arrays.asList(new AddressBuilder().setCity("Delhi").build(),
                 new AddressBuilder().setCity("Hong Kong").build());
+
         List<Address> addressList2 = Arrays.asList(new AddressBuilder().setCity("Delhi").build(),
                 new AddressBuilder().setCity("Mumbai").build());
         return Arrays.asList(
@@ -27,8 +27,10 @@ public class DiffCalculationEngineTest {
     }
 
     private List<Person> getAfter() {
+        List<Address> addressList3 = Arrays.asList(new AddressBuilder().setCity("Delhi").build(),
+                new AddressBuilder().setCity("New York").build());
         return Arrays.asList(new PersonBuilder().setAge(37).setName("Sam Adams").build(),
-                new PersonBuilder().setAge(33).setName("Jolly Adams").build());
+                new PersonBuilder().setAge(33).setName("Jolly Adams").setAddresses(addressList3).build());
     }
 
     private void printResults(List<Diff> diffs) {
@@ -39,7 +41,7 @@ public class DiffCalculationEngineTest {
                 System.out.println(diff);
                 onedeltas = diff.getChildDiffs();
                 if (onedeltas != null) {
-                    for (Diff diffOne : diffs) {
+                    for (Diff diffOne : onedeltas) {
                         System.out.println(" > " + diffOne);
                         twodeltas = diffOne.getChildDiffs();
                         if (twodeltas != null) {
