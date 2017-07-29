@@ -1,3 +1,5 @@
+[![Build Status](https://api.travis-ci.org/PareshNavalakha/ObjectDiffUtil.svg?branch=master)](https://travis-ci.org/PareshNavalakha/ObjectDiffUtil)
+
 # Object Diff Utility
 
 Generic utility to find out differences between any two objects of the same type. 
