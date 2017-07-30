@@ -30,9 +30,11 @@ Java 8
 TBD Maven dependency 
 
 
-## Authors
+## Contributors
 
-* **Paresh Navalakha** - *Initial work*
+[Paresh Navalakha](https://github.com/PareshNavalakha) - *Initial work*
+
+[Baba Shinde](https://github.com/baba-shinde) for Travis setup tips.
 
 ## License
 
