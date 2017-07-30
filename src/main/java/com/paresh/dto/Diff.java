@@ -1,5 +1,6 @@
 package com.paresh.dto;
 
+import com.paresh.cache.ClassMetadataCache;
 import com.paresh.constants.Constants;
 
 import java.util.List;
@@ -27,40 +28,20 @@ public class Diff {
         return identifier;
     }
 
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
-    }
-
     public ChangeType getChangeType() {
         return changeType;
-    }
-
-    public void setChangeType(ChangeType changeType) {
-        this.changeType = changeType;
     }
 
     public String getFieldDescription() {
         return fieldDescription;
     }
 
-    public void setFieldDescription(String fieldDescription) {
-        this.fieldDescription = fieldDescription;
-    }
-
     public String getBefore() {
         return before;
     }
 
-    public void setBefore(String before) {
-        this.before = before;
-    }
-
     public String getAfter() {
         return after;
-    }
-
-    public void setAfter(String after) {
-        this.after = after;
     }
 
     public List<Diff> getChildDiffs() {
@@ -94,6 +75,71 @@ public class Diff {
             }
         }
         return stringBuilder.toString();
+    }
+
+
+    public static class Builder {
+
+        private ChangeType changeType;
+        private String fieldDescription;
+        private Object before;
+        private Object after;
+        private String identifier;
+
+        public Builder isAdded() {
+            this.changeType = ChangeType.ADDED;
+            return this;
+        }
+
+
+        public Builder isDeleted() {
+            this.changeType = ChangeType.DELETED;
+            return this;
+        }
+
+        public Builder isUpdated() {
+            this.changeType = ChangeType.UPDATED;
+            return this;
+        }
+
+        public Builder hasNotChanged() {
+            this.changeType = ChangeType.NO_CHANGE;
+            return this;
+        }
+
+        public Builder setBeforeValue(Object before) {
+            this.before = before;
+            return this;
+        }
+
+        public Builder setAfterValue(Object after) {
+            this.after = after;
+            return this;
+        }
+
+        public Builder setFieldDescription(String fieldDescription) {
+            this.fieldDescription = fieldDescription;
+            return this;
+        }
+
+        public Diff build() {
+
+            if (changeType != null) {
+                switch (changeType) {
+                    case DELETED:
+                    case UPDATED:
+                    case NO_CHANGE:
+                        identifier = ClassMetadataCache.getInstance().getIdentifierString(before);
+                        break;
+                    case ADDED:
+                        identifier = ClassMetadataCache.getInstance().getIdentifierString(after);
+
+                }
+            }
+
+            return new Diff(changeType, fieldDescription, before == null ? Constants.BLANK : before.toString(), after == null ? Constants.BLANK : after.toString(), identifier);
+        }
+
     }
 
 }

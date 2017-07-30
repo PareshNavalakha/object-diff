@@ -2,7 +2,6 @@ package com.paresh.util;
 
 import com.paresh.cache.ClassMetadataCache;
 import com.paresh.dto.Diff;
-import com.paresh.dto.DiffBuilder;
 
 import java.lang.reflect.Method;
 import java.util.LinkedList;
@@ -18,15 +17,15 @@ class ComplexObjectDiffCalculator extends DiffCalculator {
     public List<Diff> apply(Object before, Object after, String description) {
         List<Diff> diffs = new LinkedList<>();
         if (before == null && after == null) {
-            diffs.add(new DiffBuilder().hasNotChanged().setFieldDescription(description).build());
+            diffs.add(new Diff.Builder().hasNotChanged().setFieldDescription(description).build());
         } else if (before == null && after != null) {
-            diffs.add(new DiffBuilder().isAdded().setAfterValue(after).setFieldDescription(description).build());
+            diffs.add(new Diff.Builder().isAdded().setAfterValue(after).setFieldDescription(description).build());
         } else if (before != null && after == null) {
-            diffs.add(new DiffBuilder().isDeleted().setBeforeValue(before).setFieldDescription(description).build());
+            diffs.add(new Diff.Builder().isDeleted().setBeforeValue(before).setFieldDescription(description).build());
         } else if (before != null && before.equals(after)) {
-            diffs.add(new DiffBuilder().hasNotChanged().setBeforeValue(before).setAfterValue(after).setFieldDescription(ClassMetadataCache.getInstance().getDescription(before.getClass())).build());
+            diffs.add(new Diff.Builder().hasNotChanged().setBeforeValue(before).setAfterValue(after).setFieldDescription(ClassMetadataCache.getInstance().getDescription(before.getClass())).build());
         } else if (before != null && after != null) {
-            Diff diff = new DiffBuilder().isUpdated().setBeforeValue(before).setAfterValue(after).setFieldDescription(ClassMetadataCache.getInstance().getDescription(before.getClass())).build();
+            Diff diff = new Diff.Builder().isUpdated().setBeforeValue(before).setAfterValue(after).setFieldDescription(ClassMetadataCache.getInstance().getDescription(before.getClass())).build();
             diffs.add(diff);
 
             Set<Method> methods = ClassMetadataCache.getInstance().getAllGetterMethods(before.getClass());

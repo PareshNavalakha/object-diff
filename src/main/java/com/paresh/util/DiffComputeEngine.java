@@ -2,7 +2,6 @@ package com.paresh.util;
 
 import com.paresh.cache.ClassMetadataCache;
 import com.paresh.dto.Diff;
-import com.paresh.dto.DiffBuilder;
 import com.paresh.exception.BothAreNullException;
 
 import java.util.Collections;
@@ -55,7 +54,7 @@ public class DiffComputeEngine {
                     return calculator.apply(before, after, description);
                 }
             } catch (BothAreNullException e) {
-                return Collections.singletonList(new DiffBuilder().hasNotChanged().build());
+                return Collections.singletonList(new Diff.Builder().hasNotChanged().build());
             }
         }
 
