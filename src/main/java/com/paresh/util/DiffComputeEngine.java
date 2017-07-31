@@ -4,6 +4,7 @@ import com.paresh.cache.ClassMetadataCache;
 import com.paresh.dto.Diff;
 import com.paresh.exception.BothAreNullException;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -40,13 +41,13 @@ public class DiffComputeEngine {
 
     }
 
-    public List<Diff> findDifferences(Object before, Object after) {
-        List<Diff> returnValue = evaluateAndExecute(before, after, null);
+    public Collection<Diff> findDifferences(Object before, Object after) {
+        Collection<Diff> returnValue = evaluateAndExecute(before, after, null);
         ClassMetadataCache.getInstance().clearCache();
         return returnValue;
     }
 
-    List<Diff> evaluateAndExecute(Object before, Object after, String description) {
+    Collection<Diff> evaluateAndExecute(Object before, Object after, String description) {
         for (DiffCalculator calculator : calculators) {
             try {
 

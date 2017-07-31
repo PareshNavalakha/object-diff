@@ -2,15 +2,15 @@ package com.paresh.util;
 
 import com.paresh.dto.Diff;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Collection;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 
 public class ObjectDiffCalculator extends DiffCalculator {
 
     @Override
-    public List<Diff> apply(Object before, Object after, String description) {
-        List<Diff> diffs = new LinkedList<>();
+    public Collection<Diff> apply(Object before, Object after, String description) {
+        Collection<Diff> diffs = new ConcurrentLinkedQueue<>();
         if (before == null && after != null) {
             diffs.add(new Diff.Builder().isAdded().setAfterValue(after).setFieldDescription(description).build());
         } else if (before != null && after == null) {

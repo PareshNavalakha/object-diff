@@ -3,7 +3,7 @@ package com.paresh.dto;
 import com.paresh.cache.ClassMetadataCache;
 import com.paresh.constants.Constants;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Created by Admin on 27-06-2017.
@@ -14,7 +14,7 @@ public class Diff {
     private String before;
     private String after;
     private String identifier;
-    private List<Diff> childDiffs;
+    private Collection<Diff> childDiffs;
 
     public Diff(ChangeType changeType, String fieldDescription, String before, String after, String identifier) {
         this.changeType = changeType;
@@ -44,11 +44,11 @@ public class Diff {
         return after;
     }
 
-    public List<Diff> getChildDiffs() {
+    public Collection<Diff> getChildDiffs() {
         return childDiffs;
     }
 
-    public void setChildDiffs(List<Diff> childDiffs) {
+    public void setChildDiffs(Collection<Diff> childDiffs) {
         this.childDiffs = childDiffs;
     }
 

@@ -5,45 +5,45 @@ import com.paresh.dto.ChangeType;
 import com.paresh.dto.Diff;
 
 import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * Created by Admin on 01-07-2017.
  */
 class CollectionDiffCalculator extends DiffCalculator {
     @Override
-    public List<Diff> apply(Object beforeObject, Object afterObject, String description) {
-        List<Diff> diffs = new LinkedList<>();
+    public Collection<Diff> apply(final Object beforeObject, final Object afterObject, String description) {
+        Collection<Diff> diffs = new ConcurrentLinkedQueue<>();
         Collection before = (Collection) beforeObject;
         Collection after = (Collection) afterObject;
 
         if (!isNullOrEmpty(before) && isNullOrEmpty(after)) {
-            before.forEach(object -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(object, null, description)));
+            before.parallelStream().forEach(object -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(object, null, description)));
 
         } else if (isNullOrEmpty(before) && !isNullOrEmpty(after)) {
-            after.forEach(object -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(object, null, description)));
+            after.parallelStream().forEach(object -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(object, null, description)));
 
         } else {
-            for (Object object : before) {
+
+            before.parallelStream().forEach( object -> {
                 if (ReflectionUtil.isBaseClass(object.getClass())) {
                     diffs.addAll(getDiffComputeEngine().evaluateAndExecute(object, findCorrespondingObject(object, after), description));
                 } else {
                     diffs.addAll(getDiffComputeEngine().evaluateAndExecute(object, getCorrespondingObject(object, after), description));
                 }
 
-            }
-            List<Diff> temp = new LinkedList<>();
+            });
+            Collection<Diff> temp = new ConcurrentLinkedQueue<>();
 
-            //Now we need to ignore all besides DELETED items
-            for (Object object : after) {
+            //Now we need to ignore all Updated and Unchanged items
+            after.parallelStream().forEach( object -> {
                 if (ReflectionUtil.isBaseClass(object.getClass())) {
                     temp.addAll(getDiffComputeEngine().evaluateAndExecute(findCorrespondingObject(object, before), object, description));
                 } else {
                     temp.addAll(getDiffComputeEngine().evaluateAndExecute(getCorrespondingObject(object, before), object, description));
                 }
 
-            }
+            });
             if (temp != null && temp.size() > 0) {
                 temp.removeIf(delta -> delta.getChangeType().equals(ChangeType.NO_CHANGE)||delta.getChangeType().equals(ChangeType.UPDATED));
                 diffs.addAll(temp);
@@ -52,6 +52,7 @@ class CollectionDiffCalculator extends DiffCalculator {
         return diffs;
     }
 
+    //For simple objects, we need to simply compare the objects
     private Object findCorrespondingObject(Object object, Collection collection) {
         if (object != null && !isNullOrEmpty(collection)) {
             for (Object indexElement : collection) {
@@ -63,11 +64,12 @@ class CollectionDiffCalculator extends DiffCalculator {
         return null;
     }
 
-    private Object getCorrespondingObject(Object object, Collection collection) {
+    //For complex objects, we need to compare identifiers to get the corresponding object
+    private Object getCorrespondingObject(final Object object, final Collection collection) {
         if (object != null && !isNullOrEmpty(collection)) {
             Object identifier = ClassMetadataCache.getInstance().getIdentifier(object);
-            Object comparisonIdentifier;
             if (identifier != null) {
+                Object comparisonIdentifier;
                 for (Object indexElement : collection) {
                     if (indexElement != null) {
                         comparisonIdentifier = ClassMetadataCache.getInstance().getIdentifier(indexElement);

@@ -4,38 +4,54 @@ import com.paresh.annotations.Identifier;
 import com.paresh.dto.Diff;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class DiffCalculationEngineTest {
 
     @Test
     public void test() {
-        printResults(DiffComputeEngine.getInstance().evaluateAndExecute(getBefore(), getAfter(), null));
+        printResults(DiffComputeEngine.getInstance().findDifferences(getBefore(), getAfter()));
     }
 
     private List<Person> getBefore() {
         List<Address> addressList1 = Arrays.asList(new AddressBuilder().setCity("Delhi").build(),
                 new AddressBuilder().setCity("Hong Kong").build());
 
+        Map<String,String> attributes1 = new HashMap<>();
+        attributes1.put("Height","175");
+        attributes1.put("Weight","72");
+        attributes1.put("Hair Color","Black");
+
+        Map<String,String> attributes2 = new HashMap<>();
+        attributes2.put("Height","180");
+        attributes2.put("Weight","95");
+
         List<Address> addressList2 = Arrays.asList(new AddressBuilder().setCity("Delhi").build(),
                 new AddressBuilder().setCity("Mumbai").build());
         return Arrays.asList(
-                new PersonBuilder().setAge(36).setName("Sam Adams").setAddresses(addressList1).build(),
-                new PersonBuilder().setAge(32).setName("Jolly Adams").setAddresses(addressList2).build());
+                new PersonBuilder().setAge(36).setName("Sam Adams").setAddresses(addressList1).setAttributes(attributes1).build(),
+                new PersonBuilder().setAge(32).setName("Jolly Adams").setAddresses(addressList2).setAttributes(attributes2).build());
 
     }
 
     private List<Person> getAfter() {
+        Map<String,String> attributes1 = new HashMap<>();
+        attributes1.put("Height","175");
+        attributes1.put("Weight","78");
+
+        Map<String,String> attributes2 = new HashMap<>();
+        attributes2.put("Height","180");
+        attributes2.put("Weight","100");
+        attributes2.put("Hair Color","Red");
         List<Address> addressList3 = Arrays.asList(new AddressBuilder().setCity("Delhi").build(),
                 new AddressBuilder().setCity("New York").build());
-        return Arrays.asList(new PersonBuilder().setAge(37).setName("Sam Adams").build(),
-                new PersonBuilder().setAge(33).setName("Jolly Adams").setAddresses(addressList3).build());
+        return Arrays.asList(new PersonBuilder().setAge(37).setName("Sam Adams").setAttributes(attributes1).build(),
+                new PersonBuilder().setAge(33).setName("Jolly Adams").setAttributes(attributes2).setAddresses(addressList3).build());
     }
 
-    private void printResults(List<Diff> diffs) {
-        List<Diff> onedeltas;
-        List<Diff> twodeltas;
+    private void printResults(Collection<Diff> diffs) {
+        Collection<Diff> onedeltas;
+        Collection<Diff> twodeltas;
         if (diffs != null) {
             for (Diff diff : diffs) {
                 System.out.println(diff);
@@ -60,6 +76,12 @@ public class DiffCalculationEngineTest {
         private String name;
         private int age;
         private List<Address> addresses;
+        private Map<String,String> attributes;
+
+        public PersonBuilder setAttributes(Map<String, String> attributes) {
+            this.attributes = attributes;
+            return this;
+        }
 
         public PersonBuilder setAddresses(List<Address> addresses) {
             this.addresses = addresses;
@@ -81,6 +103,7 @@ public class DiffCalculationEngineTest {
             person.setAge(age);
             person.setName(name);
             person.setAddresses(addresses);
+            person.setAttributes(attributes);
             return person;
         }
 
@@ -140,7 +163,16 @@ public class DiffCalculationEngineTest {
     private static class Person {
         private String name;
         private int age;
-        List<Address> addresses;
+        private List<Address> addresses;
+        private Map<String, String> attributes;
+
+        public Map<String, String> getAttributes() {
+            return attributes;
+        }
+
+        public void setAttributes(Map<String, String> attributes) {
+            this.attributes = attributes;
+        }
 
         public List<Address> getAddresses() {
             return addresses;

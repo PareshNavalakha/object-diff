@@ -4,9 +4,9 @@ import com.paresh.cache.ClassMetadataCache;
 import com.paresh.dto.Diff;
 
 import java.lang.reflect.Method;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Collection;
 import java.util.Set;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * Created by Admin on 01-07-2017.
@@ -14,8 +14,8 @@ import java.util.Set;
 class ComplexObjectDiffCalculator extends DiffCalculator {
 
     @Override
-    public List<Diff> apply(Object before, Object after, String description) {
-        List<Diff> diffs = new LinkedList<>();
+    public Collection<Diff> apply(Object before, Object after, String description) {
+        Collection<Diff> diffs = new ConcurrentLinkedQueue<>();
         if (before == null && after == null) {
             diffs.add(new Diff.Builder().hasNotChanged().setFieldDescription(description).build());
         } else if (before == null && after != null) {
@@ -30,9 +30,9 @@ class ComplexObjectDiffCalculator extends DiffCalculator {
 
             Set<Method> methods = ClassMetadataCache.getInstance().getAllGetterMethods(before.getClass());
             if (methods != null) {
-                List<Diff> childDiffs = new LinkedList<>();
+                Collection<Diff> childDiffs = new ConcurrentLinkedQueue<>();
                 diff.setChildDiffs(childDiffs);
-                methods.forEach(method -> childDiffs.addAll(getDiffComputeEngine().evaluateAndExecute(ReflectionUtil.getMethodResponse(method, before), ReflectionUtil.getMethodResponse(method, after), ClassMetadataCache.getInstance().getMethodDescription(before.getClass(), method))));
+                methods.parallelStream().forEach(method -> childDiffs.addAll(getDiffComputeEngine().evaluateAndExecute(ReflectionUtil.getMethodResponse(method, before), ReflectionUtil.getMethodResponse(method, after), ClassMetadataCache.getInstance().getMethodDescription(before.getClass(), method))));
             }
         }
         return diffs;

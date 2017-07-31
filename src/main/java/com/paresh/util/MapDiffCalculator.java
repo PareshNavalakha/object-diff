@@ -3,9 +3,9 @@ package com.paresh.util;
 import com.paresh.dto.ChangeType;
 import com.paresh.dto.Diff;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * Created by Admin on 01-07-2017.
@@ -13,23 +13,23 @@ import java.util.Map;
 class MapDiffCalculator extends DiffCalculator {
 
     @Override
-    public List<Diff> apply(Object beforeObject, Object afterObject, String description) {
-        List<Diff> diffs = new LinkedList<>();
+    public Collection<Diff> apply(Object beforeObject, Object afterObject, String description) {
+        Collection<Diff> diffs = new ConcurrentLinkedQueue<>();
         Map before = (Map) beforeObject;
         Map after = (Map) afterObject;
 
 
         if (!isNullOrEmpty(before) && isNullOrEmpty(after)) {
-            before.forEach((key, value) -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(value, null, description)));
+            before.forEach((key, value) -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(value, null, description + ":" + key)));
         } else if (isNullOrEmpty(before) && !isNullOrEmpty(after)) {
-            after.forEach((key, value) -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(null, value, description)));
+            after.forEach((key, value) -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(null, value, description + ":" + key)));
         } else {
-            before.forEach((key, value) -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(value, after.get(key), description)));
+            before.forEach((key, value) -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(value, after.get(key), description + ":" + key)));
 
-            List<Diff> temp = new LinkedList<>();
+            Collection<Diff> temp = new ConcurrentLinkedQueue<>();
 
             //Now we need to ignore all besides DELETED items
-            before.forEach((key, value) -> temp.addAll(getDiffComputeEngine().evaluateAndExecute(before.get(key), value, description)));
+            after.forEach((key, value) -> temp.addAll(getDiffComputeEngine().evaluateAndExecute(before.get(key), value, description + ":" + key)));
 
             temp.removeIf(delta -> delta.getChangeType().equals(ChangeType.NO_CHANGE)||delta.getChangeType().equals(ChangeType.UPDATED));
             diffs.addAll(temp);

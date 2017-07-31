@@ -2,12 +2,12 @@ package com.paresh.util;
 
 import com.paresh.dto.Diff;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Created by Admin on 02-07-2017.
  */
 interface DiffFunction {
 
-    List<Diff> apply(Object before, Object after, String description);
+    Collection<Diff> apply(Object before, Object after, String description);
 }
