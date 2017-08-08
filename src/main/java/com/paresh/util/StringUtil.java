@@ -4,6 +4,8 @@ package com.paresh.util;
  * Created by Admin on 27-06-2017.
  */
 class StringUtil {
+    private StringUtil()
+    {}
     public static String getHumanReadableNameFromCamelCase(String string) {
         return string.replaceAll(
                 String.format("%s|%s|%s",

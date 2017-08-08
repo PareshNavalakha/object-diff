@@ -18,18 +18,20 @@ class MapDiffCalculator extends DiffCalculator {
         Map before = (Map) beforeObject;
         Map after = (Map) afterObject;
 
-
-        if (!isNullOrEmpty(before) && isNullOrEmpty(after)) {
-            before.forEach((key, value) -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(value, null, description + ":" + key)));
+        if (isNullOrEmpty(before) && isNullOrEmpty(after)) {
+            //Do nothing
+        }
+        else if (!isNullOrEmpty(before) && isNullOrEmpty(after)) {
+            before.forEach((key, value) -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(value, null, description + "::" + key)));
         } else if (isNullOrEmpty(before) && !isNullOrEmpty(after)) {
-            after.forEach((key, value) -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(null, value, description + ":" + key)));
+            after.forEach((key, value) -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(null, value, description + "::" + key)));
         } else {
-            before.forEach((key, value) -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(value, after.get(key), description + ":" + key)));
+            before.forEach((key, value) -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(value, after.get(key), description + "::" + key)));
 
             Collection<Diff> temp = new ConcurrentLinkedQueue<>();
 
             //Now we need to ignore all besides DELETED items
-            after.forEach((key, value) -> temp.addAll(getDiffComputeEngine().evaluateAndExecute(before.get(key), value, description + ":" + key)));
+            after.forEach((key, value) -> temp.addAll(getDiffComputeEngine().evaluateAndExecute(before.get(key), value, description + "::" + key)));
 
             temp.removeIf(delta -> delta.getChangeType().equals(ChangeType.NO_CHANGE)||delta.getChangeType().equals(ChangeType.UPDATED));
             diffs.addAll(temp);

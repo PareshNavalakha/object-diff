@@ -67,17 +67,6 @@ public class Diff {
                 '}';
     }
 
-    private String getChildDeltaString() {
-        StringBuilder stringBuilder = new StringBuilder(Constants.BLANK);
-        if (childDiffs != null && childDiffs.size() > 0) {
-            for (Diff child : childDiffs) {
-                stringBuilder.append(child);
-            }
-        }
-        return stringBuilder.toString();
-    }
-
-
     public static class Builder {
 
         private ChangeType changeType;

@@ -4,6 +4,8 @@ import com.paresh.annotations.Description;
 import com.paresh.annotations.Identifier;
 import com.paresh.annotations.Ignore;
 import com.paresh.constants.Constants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -14,6 +16,9 @@ import java.util.Map;
 
 
 public class ReflectionUtil {
+    private static final Logger logger = LoggerFactory.getLogger(ReflectionUtil.class);
+    private ReflectionUtil()
+    {}
 
     private static boolean isAnnotationPresent(Method method, Class clazz) {
         return clazz.isAnnotation() && method.isAnnotationPresent(clazz);
@@ -105,7 +110,7 @@ public class ReflectionUtil {
             try {
                 methodResponse = method.invoke(object, (Object[]) null);
             } catch (IllegalAccessException | InvocationTargetException e) {
-                e.printStackTrace();
+                logger.error("Could not execute method" ,e);
             }
             if (methodResponse == null && object.getClass().equals(String.class)) {
                 return Constants.BLANK;

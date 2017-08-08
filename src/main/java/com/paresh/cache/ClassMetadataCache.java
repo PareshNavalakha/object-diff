@@ -35,7 +35,6 @@ public class ClassMetadataCache {
 
     public void clearCache() {
         classMetaDataMap.clear();
-        ;
     }
 
     private void buildMetaDataIfNotAvailable(Class clazz) {
@@ -44,7 +43,7 @@ public class ClassMetadataCache {
             classMetadata.setClassDescription(ReflectionUtil.getDescription(clazz));
             List<Method> methods = ReflectionUtil.fetchAllGetterMethods(clazz);
             Map<Method, String> classMethods = new HashMap<>();
-            if (methods != null && methods.size() > 0) {
+            if (methods != null && !methods.isEmpty()) {
                 methods.forEach(method -> classMethods.put(method, ReflectionUtil.getDescription(method)));
             }
             classMetadata.setClassAttributes(classMethods);

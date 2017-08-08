@@ -17,7 +17,10 @@ class CollectionDiffCalculator extends DiffCalculator {
         Collection before = (Collection) beforeObject;
         Collection after = (Collection) afterObject;
 
-        if (!isNullOrEmpty(before) && isNullOrEmpty(after)) {
+        if (isNullOrEmpty(before) && isNullOrEmpty(after)) {
+            //Do nothing.
+        }
+        else if (!isNullOrEmpty(before) && isNullOrEmpty(after)) {
             before.parallelStream().forEach(object -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(object, null, description)));
 
         } else if (isNullOrEmpty(before) && !isNullOrEmpty(after)) {
@@ -44,7 +47,7 @@ class CollectionDiffCalculator extends DiffCalculator {
                 }
 
             });
-            if (temp != null && temp.size() > 0) {
+            if (!temp.isEmpty()) {
                 temp.removeIf(delta -> delta.getChangeType().equals(ChangeType.NO_CHANGE)||delta.getChangeType().equals(ChangeType.UPDATED));
                 diffs.addAll(temp);
             }
