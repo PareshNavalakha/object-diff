@@ -1,16 +1,18 @@
-package com.paresh.util;
+package com.paresh.diff.util;
 
-import com.paresh.cache.ClassMetadataCache;
-import com.paresh.dto.ChangeType;
-import com.paresh.dto.Diff;
+import com.paresh.diff.cache.ClassMetadataCache;
+import com.paresh.diff.dto.ChangeType;
+import com.paresh.diff.dto.Diff;
+import com.paresh.diff.exception.NotSatisfactorilyTested;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * Created by Admin on 01-07-2017.
  */
-class CollectionDiffCalculator extends DiffCalculator {
+public class ComplexCollectionDiffCalculator extends DiffCalculator {
     @Override
     public Collection<Diff> apply(final Object beforeObject, final Object afterObject, String description) {
         Collection<Diff> diffs = new ConcurrentLinkedQueue<>();
@@ -19,8 +21,7 @@ class CollectionDiffCalculator extends DiffCalculator {
 
         if (isNullOrEmpty(before) && isNullOrEmpty(after)) {
             //Do nothing.
-        }
-        else if (!isNullOrEmpty(before) && isNullOrEmpty(after)) {
+        } else if (!isNullOrEmpty(before) && isNullOrEmpty(after)) {
             before.parallelStream().forEach(object -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(object, null, description)));
 
         } else if (isNullOrEmpty(before) && !isNullOrEmpty(after)) {
@@ -28,43 +29,21 @@ class CollectionDiffCalculator extends DiffCalculator {
 
         } else {
 
-            before.parallelStream().forEach( object -> {
-                if (ReflectionUtil.isBaseClass(object.getClass())) {
-                    diffs.addAll(getDiffComputeEngine().evaluateAndExecute(object, findCorrespondingObject(object, after), description));
-                } else {
-                    diffs.addAll(getDiffComputeEngine().evaluateAndExecute(object, getCorrespondingObject(object, after), description));
-                }
-
+            before.parallelStream().forEach(object -> {
+                diffs.addAll(getDiffComputeEngine().evaluateAndExecute(object, getCorrespondingObject(object, after), description));
             });
             Collection<Diff> temp = new ConcurrentLinkedQueue<>();
 
             //Now we need to ignore all Updated and Unchanged items
-            after.parallelStream().forEach( object -> {
-                if (ReflectionUtil.isBaseClass(object.getClass())) {
-                    temp.addAll(getDiffComputeEngine().evaluateAndExecute(findCorrespondingObject(object, before), object, description));
-                } else {
-                    temp.addAll(getDiffComputeEngine().evaluateAndExecute(getCorrespondingObject(object, before), object, description));
-                }
-
+            after.parallelStream().forEach(object -> {
+                temp.addAll(getDiffComputeEngine().evaluateAndExecute(getCorrespondingObject(object, before), object, description));
             });
             if (!temp.isEmpty()) {
-                temp.removeIf(delta -> delta.getChangeType().equals(ChangeType.NO_CHANGE)||delta.getChangeType().equals(ChangeType.UPDATED));
+                temp.removeIf(delta -> delta.getChangeType().equals(ChangeType.NO_CHANGE) || delta.getChangeType().equals(ChangeType.UPDATED));
                 diffs.addAll(temp);
             }
         }
         return diffs;
-    }
-
-    //For simple objects, we need to simply compare the objects
-    private Object findCorrespondingObject(Object object, Collection collection) {
-        if (object != null && !isNullOrEmpty(collection)) {
-            for (Object indexElement : collection) {
-                if (indexElement != null && object.equals(indexElement)) {
-                    return indexElement;
-                }
-            }
-        }
-        return null;
     }
 
     //For complex objects, we need to compare identifiers to get the corresponding object
@@ -96,8 +75,32 @@ class CollectionDiffCalculator extends DiffCalculator {
     }
 
     @Override
-    public boolean test(Object object) {
-        return ReflectionUtil.isInstanceOfCollection(object);
+    public boolean test(Object object1,Object object2) {
+        boolean returnValue = false;
+        try
+        {
+            returnValue=isAComplexCollection(object1);
+        }
+        catch (NotSatisfactorilyTested e)
+        {
+            try {
+                returnValue=isAComplexCollection(object2);
+            } catch (NotSatisfactorilyTested notSatisfactorilyTested) {
+                //EAT IT
+            }
+        }
+        return returnValue;
+    }
+
+    private boolean isAComplexCollection(Object object) throws NotSatisfactorilyTested {
+        if (ReflectionUtil.isInstanceOfCollection(object)) {
+            Collection collection = (Collection) object;
+            if (collection != null && !collection.isEmpty()) {
+                Iterator iterator = collection.iterator();
+                return !ReflectionUtil.isBaseClass(iterator.next().getClass());
+            }
+        }
+        throw new NotSatisfactorilyTested();
     }
 
 }

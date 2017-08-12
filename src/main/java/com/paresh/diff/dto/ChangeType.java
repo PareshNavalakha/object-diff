@@ -1,4 +1,4 @@
-package com.paresh.dto;
+package com.paresh.diff.dto;
 
 /**
  * Created by Admin on 27-06-2017.

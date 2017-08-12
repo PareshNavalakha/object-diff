@@ -1,7 +1,8 @@
-package com.paresh.util;
+package com.paresh.diff.util;
 
-import com.paresh.annotations.Identifier;
-import com.paresh.dto.Diff;
+import com.paresh.diff.annotations.Identifier;
+import com.paresh.diff.dto.Diff;
+import com.paresh.diff.dto.DiffResponse;
 import org.junit.Test;
 
 import java.util.*;
@@ -49,9 +50,10 @@ public class DiffCalculationEngineTest {
                 new PersonBuilder().setAge(33).setName("Jolly Adams").setAttributes(attributes2).setAddresses(addressList3).build());
     }
 
-    private void printResults(Collection<Diff> diffs) {
+    private void printResults(DiffResponse diffResponse) {
         Collection<Diff> onedeltas;
         Collection<Diff> twodeltas;
+        Collection<Diff> diffs = diffResponse.getDiffs();
         if (diffs != null) {
             for (Diff diff : diffs) {
                 System.out.println(diff);

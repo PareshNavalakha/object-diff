@@ -1,4 +1,4 @@
-package com.paresh.annotations;
+package com.paresh.diff.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

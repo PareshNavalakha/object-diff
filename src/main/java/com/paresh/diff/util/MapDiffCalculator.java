@@ -1,7 +1,7 @@
-package com.paresh.util;
+package com.paresh.diff.util;
 
-import com.paresh.dto.ChangeType;
-import com.paresh.dto.Diff;
+import com.paresh.diff.dto.ChangeType;
+import com.paresh.diff.dto.Diff;
 
 import java.util.Collection;
 import java.util.Map;
@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 /**
  * Created by Admin on 01-07-2017.
  */
-class MapDiffCalculator extends DiffCalculator {
+public class MapDiffCalculator extends DiffCalculator {
 
     @Override
     public Collection<Diff> apply(Object beforeObject, Object afterObject, String description) {
@@ -50,8 +50,16 @@ class MapDiffCalculator extends DiffCalculator {
     }
 
     @Override
-    public boolean test(Object object) {
-        return ReflectionUtil.isInstanceOfMap(object);
+    public boolean test(Object object1,Object object2) {
+        if(object1!=null)
+        {
+            return ReflectionUtil.isInstanceOfMap(object1);
+        }
+        if(object2!=null)
+        {
+            return ReflectionUtil.isInstanceOfMap(object2);
+        }
+        return false;
     }
 
 }

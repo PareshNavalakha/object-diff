@@ -1,7 +1,7 @@
-package com.paresh.util;
+package com.paresh.diff.util;
 
-import com.paresh.cache.ClassMetadataCache;
-import com.paresh.dto.Diff;
+import com.paresh.diff.cache.ClassMetadataCache;
+import com.paresh.diff.dto.Diff;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 /**
  * Created by Admin on 01-07-2017.
  */
-class ComplexObjectDiffCalculator extends DiffCalculator {
+public class ComplexObjectDiffCalculator extends DiffCalculator {
 
     @Override
     public Collection<Diff> apply(Object before, Object after, String description) {
@@ -44,8 +44,16 @@ class ComplexObjectDiffCalculator extends DiffCalculator {
     }
 
     @Override
-    public boolean test(Object object) {
-        return !ReflectionUtil.isBaseClass(object.getClass());
+    public boolean test(Object object1,Object object2) {
+        if(object1!=null)
+        {
+            return !ReflectionUtil.isBaseClass(object1.getClass());
+        }
+        if(object2!=null)
+        {
+            return !ReflectionUtil.isBaseClass(object2.getClass());
+        }
+        return false;
     }
 
 }

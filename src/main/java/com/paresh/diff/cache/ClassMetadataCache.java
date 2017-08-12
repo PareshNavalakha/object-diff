@@ -1,8 +1,8 @@
-package com.paresh.cache;
+package com.paresh.diff.cache;
 
-import com.paresh.constants.Constants;
-import com.paresh.dto.ClassMetadata;
-import com.paresh.util.ReflectionUtil;
+import com.paresh.diff.constants.Constants;
+import com.paresh.diff.dto.ClassMetadata;
+import com.paresh.diff.util.ReflectionUtil;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -33,8 +33,8 @@ public class ClassMetadataCache {
         return instance;
     }
 
-    public void clearCache() {
-        classMetaDataMap.clear();
+    public Map<Class, ClassMetadata> getClassMetaDataMap() {
+        return classMetaDataMap;
     }
 
     private void buildMetaDataIfNotAvailable(Class clazz) {

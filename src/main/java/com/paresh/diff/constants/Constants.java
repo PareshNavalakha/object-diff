@@ -1,4 +1,4 @@
-package com.paresh.constants;
+package com.paresh.diff.constants;
 
 /**
  * Created by Admin on 27-06-2017.

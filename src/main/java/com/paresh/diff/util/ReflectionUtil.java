@@ -1,9 +1,9 @@
-package com.paresh.util;
+package com.paresh.diff.util;
 
-import com.paresh.annotations.Description;
-import com.paresh.annotations.Identifier;
-import com.paresh.annotations.Ignore;
-import com.paresh.constants.Constants;
+import com.paresh.diff.annotations.Description;
+import com.paresh.diff.annotations.Identifier;
+import com.paresh.diff.annotations.Ignore;
+import com.paresh.diff.constants.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

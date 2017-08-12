@@ -1,6 +1,6 @@
-package com.paresh.util;
+package com.paresh.diff.util;
 
-import com.paresh.dto.Diff;
+import com.paresh.diff.dto.Diff;
 
 import java.util.Collection;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -34,7 +34,7 @@ public class ObjectDiffCalculator extends DiffCalculator {
 
 
     @Override
-    public boolean test(Object o) {
+    public boolean test(Object o1,Object o2) {
         return true;
     }
 

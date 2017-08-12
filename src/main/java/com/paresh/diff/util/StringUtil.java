@@ -1,4 +1,4 @@
-package com.paresh.util;
+package com.paresh.diff.util;
 
 /**
  * Created by Admin on 27-06-2017.

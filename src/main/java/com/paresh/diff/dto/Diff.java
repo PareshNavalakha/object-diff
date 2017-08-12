@@ -1,7 +1,7 @@
-package com.paresh.dto;
+package com.paresh.diff.dto;
 
-import com.paresh.cache.ClassMetadataCache;
-import com.paresh.constants.Constants;
+import com.paresh.diff.cache.ClassMetadataCache;
+import com.paresh.diff.constants.Constants;
 
 import java.util.Collection;
 

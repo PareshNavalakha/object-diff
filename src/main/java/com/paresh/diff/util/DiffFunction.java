@@ -1,6 +1,6 @@
-package com.paresh.util;
+package com.paresh.diff.util;
 
-import com.paresh.dto.Diff;
+import com.paresh.diff.dto.Diff;
 
 import java.util.Collection;
 

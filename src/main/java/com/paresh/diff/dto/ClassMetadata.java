@@ -1,4 +1,4 @@
-package com.paresh.dto;
+package com.paresh.diff.dto;
 
 import java.lang.reflect.Method;
 import java.util.Map;
