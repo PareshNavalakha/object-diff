@@ -41,8 +41,8 @@ public class DiffComputeEngine extends Engine {
             if (calculator.test(before, after)) {
                 return calculator.apply(before, after, description);
             }
-            logger.error("Could not find relevant Calculator for {} {} {}", before, after, description);
         }
+        logger.error("Could not find relevant Calculator for {} {} {}", before, after, description);
         return new ArrayList<>();
     }
 

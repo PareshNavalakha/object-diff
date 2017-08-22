@@ -24,7 +24,7 @@ public class SimpleCollectionDiffCalculator extends DiffCalculator {
             before.parallelStream().forEach(object -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(object, null, description)));
 
         } else if (isNullOrEmpty(before) && !isNullOrEmpty(after)) {
-            after.parallelStream().forEach(object -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(object, null, description)));
+            after.parallelStream().forEach(object -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(null, object, description)));
 
         } else {
 

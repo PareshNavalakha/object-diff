@@ -8,7 +8,7 @@ import java.util.Collection;
 /**
  * Created by Admin on 27-06-2017.
  */
-public class Diff {
+public class Diff  {
     private ChangeType changeType;
     private String fieldDescription;
     private String before;
