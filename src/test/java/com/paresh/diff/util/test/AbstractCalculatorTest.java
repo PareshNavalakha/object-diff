@@ -4,7 +4,10 @@ import com.paresh.diff.dto.ChangeType;
 import com.paresh.diff.dto.Diff;
 import com.paresh.diff.util.DiffCalculator;
 import com.paresh.diff.util.DiffComputeEngine;
+import org.hamcrest.core.IsInstanceOf;
+import org.hamcrest.core.IsNot;
 import org.junit.Assert;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,7 +32,7 @@ public class AbstractCalculatorTest {
         Collection<Diff> diffs = diffCalculator.apply(emptyBefore, emptyAfter,null);
         Assert.assertNotNull("Response should be non-null",diffs);
         Assert.assertFalse("Response should not be empty",diffs.isEmpty());
-        Assert.assertEquals("It should be no change",diffs.iterator().next().getChangeType(), ChangeType.NO_CHANGE);
+        Assert.assertEquals("It should be no change",ChangeType.NO_CHANGE,diffs.iterator().next().getChangeType());
     }
 
     @Test
@@ -38,7 +41,7 @@ public class AbstractCalculatorTest {
         Collection<Diff> diffs = diffCalculator.apply(before, sameAsBefore,null);
         Assert.assertNotNull("Response should be non-null",diffs);
         Assert.assertFalse("Response should not be empty",diffs.isEmpty());
-        Assert.assertEquals("It should be no change",diffs.iterator().next().getChangeType(), ChangeType.NO_CHANGE);
+        Assert.assertEquals("It should be no change",ChangeType.NO_CHANGE,diffs.iterator().next().getChangeType());
     }
 
     @Test
@@ -47,7 +50,7 @@ public class AbstractCalculatorTest {
         Collection<Diff> diffs = diffCalculator.apply(emptyBefore, after,null);
         Assert.assertNotNull("Response should be non-null",diffs);
         Assert.assertFalse("Response should not be empty",diffs.isEmpty());
-        Assert.assertEquals("It should be addition",diffs.iterator().next().getChangeType(), ChangeType.ADDED);
+        Assert.assertEquals("It should be addition",ChangeType.ADDED,diffs.iterator().next().getChangeType());
     }
 
     @Test
@@ -56,16 +59,19 @@ public class AbstractCalculatorTest {
         Collection<Diff> diffs = diffCalculator.apply(before, emptyAfter,null);
         Assert.assertNotNull("Response should be non-null",diffs);
         Assert.assertFalse("Response should not be empty",diffs.isEmpty());
-        Assert.assertEquals("It should be deletion",diffs.iterator().next().getChangeType(), ChangeType.DELETED);
+        Assert.assertEquals("It should be deletion",ChangeType.DELETED,diffs.iterator().next().getChangeType());
     }
 
     @Test
     public void testUpdate()
     {
+        Assume.assumeThat(before,IsNot.not(IsInstanceOf.instanceOf (Collection.class)));
+        Assume.assumeThat(after,IsNot.not(IsInstanceOf.instanceOf (Collection.class)));
+
         Collection<Diff> diffs = diffCalculator.apply(before, after,null);
         Assert.assertNotNull("Response should be non-null",diffs);
         Assert.assertFalse("Response should not be empty",diffs.isEmpty());
-        Assert.assertEquals("It should be updated",diffs.iterator().next().getChangeType(), ChangeType.UPDATED);
+        Assert.assertEquals("It should be updated",ChangeType.UPDATED,diffs.iterator().next().getChangeType());
     }
 
 }

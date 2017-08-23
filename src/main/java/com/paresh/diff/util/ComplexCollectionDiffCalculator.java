@@ -20,7 +20,7 @@ public class ComplexCollectionDiffCalculator extends DiffCalculator {
         Collection after = (Collection) afterObject;
 
         if (isNullOrEmpty(before) && isNullOrEmpty(after)) {
-            //Do nothing.
+            diffs.add(new Diff.Builder().hasNotChanged().setFieldDescription(description).build());
         } else if (!isNullOrEmpty(before) && isNullOrEmpty(after)) {
             before.parallelStream().forEach(object -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(object, null, description)));
 

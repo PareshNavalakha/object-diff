@@ -8,7 +8,9 @@ import org.junit.runners.Suite;
         DiffCalculationEngineTest.class,
         ComplexObjectDiffCalculatorTest.class,
         MapDiffCalculatorTest.class,
-        ObjectDiffCalculatorTest.class
+        ObjectDiffCalculatorTest.class,
+        SimpleCollectionDiffCalculatorTest.class,
+        ComplexCollectionDiffCalculatorTest.class
 })
 public class ObjectDiffTestSuite {
 }
