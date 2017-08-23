@@ -11,7 +11,10 @@ public class ObjectDiffCalculator extends DiffCalculator {
     @Override
     public Collection<Diff> apply(Object before, Object after, String description) {
         Collection<Diff> diffs = new ConcurrentLinkedQueue<>();
-        if (before == null && after != null) {
+        if (before == null && after == null) {
+            diffs.add(new Diff.Builder().hasNotChanged().setFieldDescription(description).build());
+        }
+        else if (before == null && after != null) {
             diffs.add(new Diff.Builder().isAdded().setAfterValue(after).setFieldDescription(description).build());
         } else if (before != null && after == null) {
             diffs.add(new Diff.Builder().isDeleted().setBeforeValue(before).setFieldDescription(description).build());
