@@ -47,7 +47,7 @@ public class DiffComputeEngine extends Engine {
     }
 
     //Initialize configuration if not done already
-    private void initializeConfiguration() {
+    public void initializeConfiguration() {
         Configuration configuration = getConfiguration();
         if (configuration == null) {
             configuration = new DefaultConfiguration();

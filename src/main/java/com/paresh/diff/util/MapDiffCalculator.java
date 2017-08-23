@@ -19,7 +19,7 @@ public class MapDiffCalculator extends DiffCalculator {
         Map after = (Map) afterObject;
 
         if (isNullOrEmpty(before) && isNullOrEmpty(after)) {
-            //Do nothing
+            diffs.add(new Diff.Builder().hasNotChanged().setFieldDescription(description).build());
         }
         else if (!isNullOrEmpty(before) && isNullOrEmpty(after)) {
             before.forEach((key, value) -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(value, null, description + "::" + key)));
