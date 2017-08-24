@@ -1,20 +1,17 @@
 package com.paresh.diff.util.test;
 
-import com.paresh.diff.util.MapDiffCalculator;
+import com.paresh.diff.util.DiffComputeEngine;
 import com.paresh.diff.util.SimpleCollectionDiffCalculator;
-import org.junit.Assume;
 import org.junit.Before;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SimpleCollectionDiffCalculatorTest extends  AbstractCalculatorTest {
 
     @Before
     public void setUp() {
-        super.setUp();
+        diffComputeEngine = DiffComputeEngine.getInstance();
         diffCalculator = new SimpleCollectionDiffCalculator();
         diffCalculator.registerDeltaCalculationEngine(diffComputeEngine);
         diffComputeEngine.initializeConfiguration();

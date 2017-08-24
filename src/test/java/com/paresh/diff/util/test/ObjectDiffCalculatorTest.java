@@ -1,6 +1,5 @@
 package com.paresh.diff.util.test;
 
-import com.paresh.diff.util.DiffCalculator;
 import com.paresh.diff.util.DiffComputeEngine;
 import com.paresh.diff.util.ObjectDiffCalculator;
 import org.junit.Before;
@@ -9,7 +8,7 @@ public class ObjectDiffCalculatorTest extends  AbstractCalculatorTest {
 
     @Before
     public void setUp() {
-        super.setUp();
+        diffComputeEngine = DiffComputeEngine.getInstance();
         diffCalculator = new ObjectDiffCalculator();
         diffCalculator.registerDeltaCalculationEngine(diffComputeEngine);
         diffComputeEngine.initializeConfiguration();

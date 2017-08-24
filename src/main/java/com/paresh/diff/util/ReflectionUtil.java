@@ -60,7 +60,7 @@ public class ReflectionUtil {
     }
 
 
-    static boolean isBaseClass(Class clazz) {
+    public static boolean isBaseClass(Class clazz) {
         String BASE_PACKAGE = "java.";
         return clazz.isPrimitive() || clazz.getPackage().getName().startsWith(BASE_PACKAGE);
     }
