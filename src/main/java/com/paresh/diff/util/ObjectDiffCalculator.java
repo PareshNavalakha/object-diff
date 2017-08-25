@@ -14,12 +14,12 @@ public class ObjectDiffCalculator extends DiffCalculator {
         if (before == null && after == null) {
             diffs.add(new Diff.Builder().hasNotChanged().setFieldDescription(description).build());
         }
-        else if (before == null && after != null) {
+        else if (before == null) {
             diffs.add(new Diff.Builder().isAdded().setAfterValue(after).setFieldDescription(description).build());
-        } else if (before != null && after == null) {
+        } else if (after == null) {
             diffs.add(new Diff.Builder().isDeleted().setBeforeValue(before).setFieldDescription(description).build());
         } else {
-            if (before != null && before.equals(after)) {
+            if (before.equals(after)) {
                 diffs.add(new Diff.Builder().hasNotChanged().setBeforeValue(before).setAfterValue(after).setFieldDescription(description).build());
             } else {
                 diffs.add(new Diff.Builder().isUpdated().setBeforeValue(before).setAfterValue(after).setFieldDescription(description).build());

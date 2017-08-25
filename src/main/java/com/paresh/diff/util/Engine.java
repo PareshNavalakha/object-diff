@@ -17,8 +17,8 @@ public abstract class Engine {
         this.configuration = configuration;
     }
 
-    abstract public void registerDeltaCalculator(DiffCalculator deltaCalculator);
+    public abstract void registerDeltaCalculator(DiffCalculator deltaCalculator);
 
-    abstract public Collection<Diff> evaluateAndExecute(Object before, Object after, String description);
+    public abstract Collection<Diff> evaluateAndExecute(Object before, Object after, String description);
 
 }

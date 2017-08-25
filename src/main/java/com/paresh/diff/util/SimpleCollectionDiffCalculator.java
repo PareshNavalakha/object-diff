@@ -28,15 +28,13 @@ public class SimpleCollectionDiffCalculator extends DiffCalculator {
 
         } else {
 
-            before.parallelStream().forEach(object -> {
-                diffs.addAll(getDiffComputeEngine().evaluateAndExecute(object, findCorrespondingObject(object, after), description));
-            });
+            before.parallelStream().forEach(object ->
+                    diffs.addAll(getDiffComputeEngine().evaluateAndExecute(object, findCorrespondingObject(object, after), description)));
             Collection<Diff> temp = new ConcurrentLinkedQueue<>();
 
             //Now we need to ignore all Updated and Unchanged items
-            after.parallelStream().forEach(object -> {
-                temp.addAll(getDiffComputeEngine().evaluateAndExecute(findCorrespondingObject(object, before), object, description));
-            });
+            after.parallelStream().forEach(object ->
+                    temp.addAll(getDiffComputeEngine().evaluateAndExecute(findCorrespondingObject(object, before), object, description)));
             if (!temp.isEmpty()) {
                 temp.removeIf(delta -> delta.getChangeType().equals(ChangeType.NO_CHANGE) || delta.getChangeType().equals(ChangeType.UPDATED));
                 diffs.addAll(temp);
@@ -67,16 +65,13 @@ public class SimpleCollectionDiffCalculator extends DiffCalculator {
     }
 
     @Override
-    public boolean test(Object object1,Object object2) {
+    public boolean test(Object object1, Object object2) {
         boolean returnValue = false;
-        try
-        {
-            returnValue=isASimpleCollection(object1);
-        }
-        catch (NotSatisfactorilyTested e)
-        {
+        try {
+            returnValue = isASimpleCollection(object1);
+        } catch (NotSatisfactorilyTested e) {
             try {
-                returnValue=isASimpleCollection(object2);
+                returnValue = isASimpleCollection(object2);
             } catch (NotSatisfactorilyTested notSatisfactorilyTested) {
                 //EAT IT
             }

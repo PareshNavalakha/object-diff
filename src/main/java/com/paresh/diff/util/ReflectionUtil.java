@@ -17,6 +17,8 @@ import java.util.Map;
 
 public class ReflectionUtil {
     private static final Logger logger = LoggerFactory.getLogger(ReflectionUtil.class);
+    private static String BASE_PACKAGE = "java.";
+
     private ReflectionUtil()
     {}
 
@@ -61,7 +63,6 @@ public class ReflectionUtil {
 
 
     public static boolean isBaseClass(Class clazz) {
-        String BASE_PACKAGE = "java.";
         return clazz.isPrimitive() || clazz.getPackage().getName().startsWith(BASE_PACKAGE);
     }
 

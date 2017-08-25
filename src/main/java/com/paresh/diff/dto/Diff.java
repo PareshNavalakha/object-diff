@@ -122,7 +122,7 @@ public class Diff  {
                         break;
                     case ADDED:
                         identifier = ClassMetadataCache.getInstance().getIdentifierString(after);
-
+                        break;
                 }
             }
 
