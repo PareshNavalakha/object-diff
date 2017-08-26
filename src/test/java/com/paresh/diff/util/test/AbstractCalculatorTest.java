@@ -67,7 +67,7 @@ public abstract class AbstractCalculatorTest {
         Assert.assertEquals("It should be updated", ChangeType.UPDATED, diffs.iterator().next().getChangeType());
     }
 
-    private class SimpleCollectionMatcher extends CustomMatcher {
+    private static class SimpleCollectionMatcher extends CustomMatcher {
 
         public SimpleCollectionMatcher(String description) {
             super(description);
@@ -77,7 +77,7 @@ public abstract class AbstractCalculatorTest {
         public boolean matches(Object object) {
             if (object != null && ReflectionUtil.isInstanceOfCollection(object)) {
                 Collection collection = (Collection) object;
-                if (collection != null && !collection.isEmpty()) {
+                if (!collection.isEmpty()) {
                     Iterator iterator = collection.iterator();
                     return !ReflectionUtil.isBaseClass(iterator.next().getClass());
                 }

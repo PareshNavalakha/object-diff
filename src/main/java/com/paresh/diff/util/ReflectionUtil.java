@@ -9,18 +9,15 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class ReflectionUtil {
     private static final Logger logger = LoggerFactory.getLogger(ReflectionUtil.class);
     private static String BASE_PACKAGE = "java.";
 
-    private ReflectionUtil()
-    {}
+    private ReflectionUtil() {
+    }
 
     private static boolean isAnnotationPresent(Method method, Class clazz) {
         return clazz.isAnnotation() && method.isAnnotationPresent(clazz);
@@ -92,11 +89,10 @@ public class ReflectionUtil {
     public static Method getIdentifierMethod(List<Method> methods) {
         Method identifierMethod = null;
         if (methods != null) {
-            for (Method method : methods) {
-                if (isAnnotationPresent(method, Identifier.class)) {
-                    identifierMethod = method;
-                    break;
-                }
+            try {
+                identifierMethod = methods.stream().filter(method -> isAnnotationPresent(method, Identifier.class)).findFirst().get();
+            } catch (NoSuchElementException e) {
+                //Ignore. No matching Identifier Method found
             }
         }
         return identifierMethod;
@@ -111,7 +107,7 @@ public class ReflectionUtil {
             try {
                 methodResponse = method.invoke(object, (Object[]) null);
             } catch (IllegalAccessException | InvocationTargetException e) {
-                logger.error("Could not execute method" ,e);
+                logger.error("Could not execute method", e);
             }
             if (methodResponse == null && object.getClass().equals(String.class)) {
                 return Constants.BLANK;

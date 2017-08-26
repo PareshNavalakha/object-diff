@@ -29,15 +29,13 @@ public class ComplexCollectionDiffCalculator extends DiffCalculator {
 
         } else {
 
-            before.parallelStream().forEach(object -> {
-                diffs.addAll(getDiffComputeEngine().evaluateAndExecute(object, getCorrespondingObject(object, after), description));
-            });
+            before.parallelStream().forEach(object ->
+                    diffs.addAll(getDiffComputeEngine().evaluateAndExecute(object, getCorrespondingObject(object, after), description)));
             Collection<Diff> temp = new ConcurrentLinkedQueue<>();
 
             //Now we need to ignore all Updated and Unchanged items
-            after.parallelStream().forEach(object -> {
-                temp.addAll(getDiffComputeEngine().evaluateAndExecute(getCorrespondingObject(object, before), object, description));
-            });
+            after.parallelStream().forEach(object ->
+                    temp.addAll(getDiffComputeEngine().evaluateAndExecute(getCorrespondingObject(object, before), object, description)));
             if (!temp.isEmpty()) {
                 temp.removeIf(delta -> delta.getChangeType().equals(ChangeType.NO_CHANGE) || delta.getChangeType().equals(ChangeType.UPDATED));
                 diffs.addAll(temp);
@@ -75,16 +73,13 @@ public class ComplexCollectionDiffCalculator extends DiffCalculator {
     }
 
     @Override
-    public boolean test(Object object1,Object object2) {
+    public boolean test(Object object1, Object object2) {
         boolean returnValue = false;
-        try
-        {
-            returnValue=isAComplexCollection(object1);
-        }
-        catch (NotSatisfactorilyTested e)
-        {
+        try {
+            returnValue = isAComplexCollection(object1);
+        } catch (NotSatisfactorilyTested e) {
             try {
-                returnValue=isAComplexCollection(object2);
+                returnValue = isAComplexCollection(object2);
             } catch (NotSatisfactorilyTested notSatisfactorilyTested) {
                 //EAT IT
             }
