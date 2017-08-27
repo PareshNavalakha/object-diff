@@ -51,11 +51,9 @@ public class ComplexCollectionDiffCalculator extends DiffCalculator {
             if (identifier != null) {
                 Object comparisonIdentifier;
                 for (Object indexElement : collection) {
-                    if (indexElement != null) {
-                        comparisonIdentifier = ClassMetadataCache.getInstance().getIdentifier(indexElement);
-                        if (identifier.equals(comparisonIdentifier)) {
-                            return indexElement;
-                        }
+                    comparisonIdentifier = ClassMetadataCache.getInstance().getIdentifier(indexElement);
+                    if (identifier.equals(comparisonIdentifier)) {
+                        return indexElement;
                     }
                 }
             }

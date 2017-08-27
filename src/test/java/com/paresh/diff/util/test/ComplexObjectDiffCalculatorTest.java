@@ -2,12 +2,12 @@ package com.paresh.diff.util.test;
 
 import com.paresh.diff.util.ComplexObjectDiffCalculator;
 import com.paresh.diff.util.DiffComputeEngine;
-import org.junit.Before;
+import org.junit.BeforeClass;
 
 public class ComplexObjectDiffCalculatorTest extends AbstractCalculatorTest {
 
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void setUp() {
         diffComputeEngine = DiffComputeEngine.getInstance();
         diffCalculator = new ComplexObjectDiffCalculator();
         diffCalculator.registerDeltaCalculationEngine(diffComputeEngine);

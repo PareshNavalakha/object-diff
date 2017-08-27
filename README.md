@@ -12,10 +12,8 @@ Highly customizable framework for developers to adapt and extend.
 
 To dos:
 1. Document usage examples
-2. Improve logging
-3. Improve test cases
-4. Improve quality of comments
-5. Most importantly: Build renders for automated diff reports in CSV, PDF and Excel formats. 
+2. Improve test cases
+3. Build renders for automated diff reports for Console, PDF and Excel formats. 
 
 ## Getting Started
 

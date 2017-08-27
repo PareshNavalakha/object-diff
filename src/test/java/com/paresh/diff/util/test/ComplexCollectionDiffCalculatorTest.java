@@ -2,15 +2,15 @@ package com.paresh.diff.util.test;
 
 import com.paresh.diff.util.ComplexCollectionDiffCalculator;
 import com.paresh.diff.util.DiffComputeEngine;
-import org.junit.Before;
+import org.junit.BeforeClass;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ComplexCollectionDiffCalculatorTest extends  AbstractCalculatorTest {
+public class ComplexCollectionDiffCalculatorTest extends AbstractCalculatorTest {
 
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void setUp() {
         diffComputeEngine = DiffComputeEngine.getInstance();
         diffCalculator = new ComplexCollectionDiffCalculator();
         diffCalculator.registerDeltaCalculationEngine(diffComputeEngine);
@@ -20,7 +20,7 @@ public class ComplexCollectionDiffCalculatorTest extends  AbstractCalculatorTest
         TestDataProvider.Person beforeEntry = new TestDataProvider.Person();
         beforeEntry.setName("Tom");
         beforeEntry.setAge(20);
-        ((List)before).add(beforeEntry);
+        ((List) before).add(beforeEntry);
 
 
         after = new ArrayList<TestDataProvider.Person>();
@@ -28,17 +28,17 @@ public class ComplexCollectionDiffCalculatorTest extends  AbstractCalculatorTest
         afterEntry.setName("Tom");
         afterEntry.setAge(21);
 
-        ((List)after).add(afterEntry);
+        ((List) after).add(afterEntry);
 
-        sameAsBefore= new ArrayList<TestDataProvider.Person>();
+        sameAsBefore = new ArrayList<TestDataProvider.Person>();
 
         TestDataProvider.Person sameAsBeforeEntry = new TestDataProvider.Person();
         sameAsBeforeEntry.setName("Tom");
         sameAsBeforeEntry.setAge(20);
-        ((List)sameAsBefore).add(sameAsBeforeEntry);
+        ((List) sameAsBefore).add(sameAsBeforeEntry);
 
 
-        emptyBefore=new ArrayList<TestDataProvider.Person>();
-        emptyAfter=new ArrayList<TestDataProvider.Person>();
+        emptyBefore = new ArrayList<TestDataProvider.Person>();
+        emptyAfter = new ArrayList<TestDataProvider.Person>();
     }
 }

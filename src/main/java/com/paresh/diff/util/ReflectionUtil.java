@@ -89,11 +89,8 @@ public class ReflectionUtil {
     public static Method getIdentifierMethod(List<Method> methods) {
         Method identifierMethod = null;
         if (methods != null) {
-            try {
-                identifierMethod = methods.stream().filter(method -> isAnnotationPresent(method, Identifier.class)).findFirst().get();
-            } catch (NoSuchElementException e) {
-                //Ignore. No matching Identifier Method found
-            }
+            Optional<Method> methodOptional = methods.stream().filter(method -> isAnnotationPresent(method, Identifier.class)).findFirst();
+            identifierMethod = methodOptional.isPresent() ? methodOptional.get() : null;
         }
         return identifierMethod;
 

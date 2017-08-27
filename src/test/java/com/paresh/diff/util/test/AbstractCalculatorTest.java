@@ -14,14 +14,14 @@ import java.util.Collection;
 import java.util.Iterator;
 
 public abstract class AbstractCalculatorTest {
-    protected DiffComputeEngine diffComputeEngine;
-    protected DiffCalculator diffCalculator;
-    protected Object before;
-    protected Object after;
-    protected Object sameAsBefore;
-    protected Object emptyBefore;
-    protected Object emptyAfter;
-    private CustomMatcher customMatcher = new SimpleCollectionMatcher("Ignoring Collections containing Base Classes");
+    protected static DiffComputeEngine diffComputeEngine;
+    protected static DiffCalculator diffCalculator;
+    protected static Object before;
+    protected static Object after;
+    protected static Object sameAsBefore;
+    protected static Object emptyBefore;
+    protected static Object emptyAfter;
+    private static CustomMatcher customMatcher = new SimpleCollectionMatcher("Ignoring Collections containing Base Classes");
 
 
     @Test

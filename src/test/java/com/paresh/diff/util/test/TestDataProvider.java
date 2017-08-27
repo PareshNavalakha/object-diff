@@ -1,31 +1,32 @@
 package com.paresh.diff.util.test;
 
-import com.paresh.diff.annotations.Identifier;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.paresh.diff.annotations.Description;
+import com.paresh.diff.annotations.Identifier;
+
 public class TestDataProvider {
 
-	public static Person getPerson(final int age, final String name, final List<Address> addresses,
-			final Map<String, String> attributes) {
-		return new PersonBuilder().setAge(age).setName(name).setAddresses(addresses).setAttributes(attributes).build();
-	}
+    public static Person getPerson(final int age, final String name, final List<Address> addresses,
+                                   final Map<String, String> attributes) {
+        return new PersonBuilder().setAge(age).setName(name).setAddresses(addresses).setAttributes(attributes).build();
+    }
 
     public static List<Person> getBeforePersonList() {
         List<Address> addressList1 = Arrays.asList(new AddressBuilder().setCity("Delhi").build(),
                 new AddressBuilder().setCity("Hong Kong").build());
 
-        Map<String,String> attributes1 = new HashMap<>();
-        attributes1.put("Height","175");
-        attributes1.put("Weight","72");
-        attributes1.put("Hair Color","Black");
+        Map<String, String> attributes1 = new HashMap<>();
+        attributes1.put("Height", "175");
+        attributes1.put("Weight", "72");
+        attributes1.put("Hair Color", "Black");
 
-        Map<String,String> attributes2 = new HashMap<>();
-        attributes2.put("Height","180");
-        attributes2.put("Weight","95");
+        Map<String, String> attributes2 = new HashMap<>();
+        attributes2.put("Height", "180");
+        attributes2.put("Weight", "95");
 
         List<Address> addressList2 = Arrays.asList(new AddressBuilder().setCity("Delhi").build(),
                 new AddressBuilder().setCity("Mumbai").build());
@@ -36,14 +37,14 @@ public class TestDataProvider {
     }
 
     public static List<Person> getAfterPersonList() {
-        Map<String,String> attributes1 = new HashMap<>();
-        attributes1.put("Height","175");
-        attributes1.put("Weight","78");
+        Map<String, String> attributes1 = new HashMap<>();
+        attributes1.put("Height", "175");
+        attributes1.put("Weight", "78");
 
-        Map<String,String> attributes2 = new HashMap<>();
-        attributes2.put("Height","180");
-        attributes2.put("Weight","100");
-        attributes2.put("Hair Color","Red");
+        Map<String, String> attributes2 = new HashMap<>();
+        attributes2.put("Height", "180");
+        attributes2.put("Weight", "100");
+        attributes2.put("Hair Color", "Red");
         List<Address> addressList3 = Arrays.asList(new AddressBuilder().setCity("Delhi").build(),
                 new AddressBuilder().setCity("New York").build());
 
@@ -55,7 +56,7 @@ public class TestDataProvider {
         private String name;
         private int age;
         private List<Address> addresses;
-        private Map<String,String> attributes;
+        private Map<String, String> attributes;
 
         public PersonBuilder setAttributes(Map<String, String> attributes) {
             this.attributes = attributes;
@@ -139,6 +140,7 @@ public class TestDataProvider {
         }
     }
 
+    @Description(userFriendlyDescription = "Demographics")
     public static class Person {
         private String name;
         private int age;
@@ -162,6 +164,7 @@ public class TestDataProvider {
         }
 
         @Identifier
+        @Description(userFriendlyDescription = "Short Name")
         public String getName() {
             return name;
         }

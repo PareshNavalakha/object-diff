@@ -52,8 +52,8 @@ public class DiffComputeEngine extends Engine {
         if (configuration == null) {
             configuration = new DefaultConfiguration();
             setConfiguration(configuration);
+            configuration.apply(this);
         }
-        configuration.apply(this);
     }
 
     public DiffResponse findDifferences(Object before, Object after) {
