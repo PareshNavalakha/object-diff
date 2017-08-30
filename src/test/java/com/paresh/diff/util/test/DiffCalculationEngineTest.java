@@ -48,7 +48,7 @@ public class DiffCalculationEngineTest {
 
         differences.getDiffs()
                 .forEach(diff -> {
-                    Assert.assertEquals("Change type should be Updated", ChangeType.NO_CHANGE, diff.getChangeType());
+                    Assert.assertEquals("Change type should be No Change", ChangeType.NO_CHANGE, diff.getChangeType());
                     Assert.assertEquals("Before and after should be same", diff.getBefore(), diff.getAfter());
                 });
     }
@@ -112,7 +112,7 @@ public class DiffCalculationEngineTest {
         Assert.assertTrue("Response should not be null", differences != null);
         Assert.assertTrue("Response should contain Collection of diff objects", differences.getDiffs().size() > 0);
         differences.getDiffs().forEach(diff -> {
-            Assert.assertEquals("Change type should be Deleted", ChangeType.ADDED, diff.getChangeType());
+            Assert.assertEquals("Change type should be Added", ChangeType.ADDED, diff.getChangeType());
             Assert.assertEquals("Field description should be null", null, diff.getFieldDescription());
         });
     }
@@ -172,9 +172,9 @@ public class DiffCalculationEngineTest {
                                     Assert.assertEquals("Before Age should be same", age.toString(), childDiff.getBefore());
                                     Assert.assertEquals("After Age should be same", changedAge.toString(), childDiff.getAfter());
                                 } else if (childDiff.getFieldDescription().equals("Name")) {
-                                    Assert.assertEquals("Change type should be Updated", ChangeType.NO_CHANGE, childDiff.getChangeType());
+                                    Assert.assertEquals("Change type should be No Change", ChangeType.NO_CHANGE, childDiff.getChangeType());
                                 } else if (childDiff.getFieldDescription().equals("Attributes")) {
-                                    Assert.assertEquals("Change type should be Updated", ChangeType.NO_CHANGE, childDiff.getChangeType());
+                                    Assert.assertEquals("Change type should be No Change", ChangeType.NO_CHANGE, childDiff.getChangeType());
                                 }
                             });
                 });

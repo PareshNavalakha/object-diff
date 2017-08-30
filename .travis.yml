@@ -4,3 +4,6 @@ jdk:
 sudo: false # faster builds
 
 script: mvn clean package
+
+after_success:
+  - mvn clean test -DTRAVIS_JOB_ID=$TRAVIS_JOB_ID jacoco:report coveralls:report

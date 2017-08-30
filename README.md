@@ -12,8 +12,7 @@ Highly customizable framework for developers to adapt and extend.
 
 To dos:
 1. Document usage examples
-2. Improve test cases
-3. Build renders for automated diff reports for Console, PDF and Excel formats. 
+2. Build renderers for automated diff reports for Console, HTML, PDF and Excel formats. 
 
 ## Getting Started
 
@@ -21,7 +20,7 @@ DiffComputeEngine.getInstance().findDifferences(before, after);
 
 ### Prerequisites
 
-Java 8
+Java 8u40 and above
 
 ### Installing
 
