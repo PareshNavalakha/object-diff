@@ -1,4 +1,5 @@
 [![Build Status](https://api.travis-ci.org/PareshNavalakha/ObjectDiffUtil.svg?branch=master)](https://travis-ci.org/PareshNavalakha/ObjectDiffUtil)
+[![Coverage Status](https://coveralls.io/repos/github/PareshNavalakha/ObjectDiffUtil/badge.svg?branch=master)](https://coveralls.io/github/PareshNavalakha/ObjectDiffUtil?branch=master)
 
 # Object Diff Utility
 
