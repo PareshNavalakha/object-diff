@@ -11,7 +11,7 @@
     </properties>
 
     <groupId>com.paresh</groupId>
-    <artifactId>ObjectDiffUtil</artifactId>
+    <artifactId>object-diff</artifactId>
     <version>1.0</version>
     <dependencies>
         <dependency>
