@@ -1,8 +1,10 @@
 package com.paresh.diff.util;
 
 import com.paresh.diff.cache.ClassMetadataCache;
-import com.paresh.diff.config.Configuration;
-import com.paresh.diff.config.DefaultConfiguration;
+import com.paresh.diff.config.ClassMetaDataConfiguration;
+import com.paresh.diff.config.DefaultEngineConfiguration;
+import com.paresh.diff.config.EngineConfiguration;
+import com.paresh.diff.config.reflection.ReflectionConfiguration;
 import com.paresh.diff.dto.Diff;
 import com.paresh.diff.dto.DiffResponse;
 import org.slf4j.Logger;
@@ -48,11 +50,17 @@ public class DiffComputeEngine extends Engine {
 
     //Initialize configuration if not done already
     public void initializeConfiguration() {
-        Configuration configuration = getConfiguration();
-        if (configuration == null) {
-            configuration = new DefaultConfiguration();
-            setConfiguration(configuration);
-            configuration.apply(this);
+        EngineConfiguration engineConfiguration = getEngineConfiguration();
+        if (engineConfiguration == null) {
+            engineConfiguration = new DefaultEngineConfiguration();
+            setEngineConfiguration(engineConfiguration);
+            engineConfiguration.apply(this);
+        }
+
+        ClassMetaDataConfiguration classMetaDataConfiguration = getClassMetaDataConfiguration();
+        if (classMetaDataConfiguration == null) {
+            classMetaDataConfiguration = new ReflectionConfiguration();
+            setClassMetaDataConfiguration(classMetaDataConfiguration);
         }
     }
 

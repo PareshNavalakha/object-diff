@@ -2,6 +2,7 @@ package com.paresh.diff.cache;
 
 import com.paresh.diff.constants.Constants;
 import com.paresh.diff.dto.ClassMetadata;
+import com.paresh.diff.util.DiffComputeEngine;
 import com.paresh.diff.util.ReflectionUtil;
 
 import java.lang.reflect.Method;
@@ -40,15 +41,15 @@ public class ClassMetadataCache {
     private void buildMetaDataIfNotAvailable(Class clazz) {
         if (!classMetaDataMap.containsKey(clazz)) {
             ClassMetadata classMetadata = new ClassMetadata();
-            classMetadata.setClassDescription(ReflectionUtil.getDescription(clazz));
+            classMetadata.setClassDescription(DiffComputeEngine.getInstance().getClassMetaDataConfiguration().getClassDescription(clazz));
             List<Method> methods = ReflectionUtil.fetchAllGetterMethods(clazz);
             Map<Method, String> classMethods = new HashMap<>();
             if (methods != null && !methods.isEmpty()) {
-                methods.forEach(method -> classMethods.put(method, ReflectionUtil.getDescription(method)));
+                methods.forEach(method -> classMethods.put(method, DiffComputeEngine.getInstance().getClassMetaDataConfiguration().getMethodDescription(method)));
             }
             classMetadata.setClassAttributes(classMethods);
             //An identifier method has to be one of the Getter methods
-            classMetadata.setIdentifierMethod(ReflectionUtil.getIdentifierMethod(methods));
+            classMetadata.setIdentifierMethod(DiffComputeEngine.getInstance().getClassMetaDataConfiguration().getIdentifierMethod(clazz));
             classMetaDataMap.put(clazz, classMetadata);
         }
     }

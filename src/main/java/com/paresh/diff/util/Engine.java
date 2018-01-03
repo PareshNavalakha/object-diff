@@ -1,20 +1,30 @@
 package com.paresh.diff.util;
 
-import com.paresh.diff.config.Configuration;
+import com.paresh.diff.config.ClassMetaDataConfiguration;
+import com.paresh.diff.config.EngineConfiguration;
 import com.paresh.diff.dto.Diff;
 
 import java.util.Collection;
 
 public abstract class Engine {
 
-    private Configuration configuration;
+    private EngineConfiguration engineConfiguration;
+    private ClassMetaDataConfiguration classMetaDataConfiguration;
 
-    public Configuration getConfiguration() {
-        return configuration;
+    public EngineConfiguration getEngineConfiguration() {
+        return engineConfiguration;
     }
 
-    public void setConfiguration(Configuration configuration) {
-        this.configuration = configuration;
+    public void setEngineConfiguration(EngineConfiguration engineConfiguration) {
+        this.engineConfiguration = engineConfiguration;
+    }
+
+    public ClassMetaDataConfiguration getClassMetaDataConfiguration() {
+        return classMetaDataConfiguration;
+    }
+
+    public void setClassMetaDataConfiguration(ClassMetaDataConfiguration classMetaDataConfiguration) {
+        this.classMetaDataConfiguration = classMetaDataConfiguration;
     }
 
     public abstract void registerDeltaCalculator(DiffCalculator deltaCalculator);

@@ -5,7 +5,7 @@ import com.paresh.diff.util.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DefaultConfiguration implements Configuration {
+public class DefaultEngineConfiguration implements EngineConfiguration {
 
     private Map<String, Object> properties = new HashMap<>();
 
