@@ -20,8 +20,7 @@ public class MapDiffCalculator extends DiffCalculator {
 
         if (isNullOrEmpty(before) && isNullOrEmpty(after)) {
             diffs.add(new Diff.Builder().hasNotChanged().setFieldDescription(description).build());
-        }
-        else if (!isNullOrEmpty(before) && isNullOrEmpty(after)) {
+        } else if (!isNullOrEmpty(before) && isNullOrEmpty(after)) {
             before.forEach((key, value) -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(value, null, description + "::" + key)));
         } else if (isNullOrEmpty(before) && !isNullOrEmpty(after)) {
             after.forEach((key, value) -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(null, value, description + "::" + key)));
@@ -33,7 +32,7 @@ public class MapDiffCalculator extends DiffCalculator {
             //Now we need to ignore all besides DELETED items
             after.forEach((key, value) -> temp.addAll(getDiffComputeEngine().evaluateAndExecute(before.get(key), value, description + "::" + key)));
 
-            temp.removeIf(delta -> delta.getChangeType().equals(ChangeType.NO_CHANGE)||delta.getChangeType().equals(ChangeType.UPDATED));
+            temp.removeIf(delta -> delta.getChangeType().equals(ChangeType.NO_CHANGE) || delta.getChangeType().equals(ChangeType.UPDATED));
             diffs.addAll(temp);
 
         }
@@ -50,13 +49,11 @@ public class MapDiffCalculator extends DiffCalculator {
     }
 
     @Override
-    public boolean test(Object object1,Object object2) {
-        if(object1!=null)
-        {
+    public boolean test(Object object1, Object object2) {
+        if (object1 != null) {
             return ReflectionUtil.isInstanceOfMap(object1);
         }
-        if(object2!=null)
-        {
+        if (object2 != null) {
             return ReflectionUtil.isInstanceOfMap(object2);
         }
         return false;

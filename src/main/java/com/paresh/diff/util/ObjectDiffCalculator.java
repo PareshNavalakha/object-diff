@@ -13,8 +13,7 @@ public class ObjectDiffCalculator extends DiffCalculator {
         Collection<Diff> diffs = new ConcurrentLinkedQueue<>();
         if (before == null && after == null) {
             diffs.add(new Diff.Builder().hasNotChanged().setFieldDescription(description).build());
-        }
-        else if (before == null) {
+        } else if (before == null) {
             diffs.add(new Diff.Builder().isAdded().setAfterValue(after).setFieldDescription(description).build());
         } else if (after == null) {
             diffs.add(new Diff.Builder().isDeleted().setBeforeValue(before).setFieldDescription(description).build());
@@ -37,7 +36,7 @@ public class ObjectDiffCalculator extends DiffCalculator {
 
 
     @Override
-    public boolean test(Object o1,Object o2) {
+    public boolean test(Object o1, Object o2) {
         return true;
     }
 

@@ -19,14 +19,12 @@ public class DefaultEngineConfiguration implements EngineConfiguration {
     }
 
     @Override
-    public void setProperty(String propertyName, Object propertyValue)
-    {
-        properties.put(propertyName,propertyValue);
+    public void setProperty(String propertyName, Object propertyValue) {
+        properties.put(propertyName, propertyValue);
     }
 
     @Override
-    public Object getProperty(String propertyName)
-    {
+    public Object getProperty(String propertyName) {
         return properties.get(propertyName);
     }
 }

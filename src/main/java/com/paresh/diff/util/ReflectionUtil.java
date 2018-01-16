@@ -6,10 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class ReflectionUtil {
@@ -65,6 +62,15 @@ public class ReflectionUtil {
             }
         }
         return methodResponse;
+    }
+
+    public static Class getCollectionElementClass(Object object) {
+        Collection collection = (Collection) object;
+        if (collection != null && !collection.isEmpty()) {
+            Iterator iterator = collection.iterator();
+            return iterator.next().getClass();
+        }
+        return null;
     }
 
 }

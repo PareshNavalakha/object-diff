@@ -4,8 +4,9 @@ package com.paresh.diff.util;
  * Created by Admin on 27-06-2017.
  */
 public class StringUtil {
-    private StringUtil()
-    {}
+    private StringUtil() {
+    }
+
     public static String getHumanReadableNameFromCamelCase(String string) {
         return string.replaceAll(
                 String.format("%s|%s|%s",

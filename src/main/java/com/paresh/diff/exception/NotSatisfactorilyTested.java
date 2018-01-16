@@ -1,4 +1,4 @@
 package com.paresh.diff.exception;
 
-public class NotSatisfactorilyTested extends Exception{
+public class NotSatisfactorilyTested extends Exception {
 }

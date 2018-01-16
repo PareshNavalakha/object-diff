@@ -1,12 +1,12 @@
 package com.paresh.diff.util.test;
 
+import com.paresh.diff.annotations.Description;
+import com.paresh.diff.annotations.Identifier;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.paresh.diff.annotations.Description;
-import com.paresh.diff.annotations.Identifier;
 
 public class TestDataProvider {
 

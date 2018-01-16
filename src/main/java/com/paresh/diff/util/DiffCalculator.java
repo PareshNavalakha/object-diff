@@ -8,7 +8,7 @@ import java.util.function.BiPredicate;
  * for eg. if an Object Diff Calculator comes across a Collection or another Complex object
  * Default Calculators will have 0 as priority. This allows for others to extend base functionality
  */
-public abstract class DiffCalculator implements DiffFunction, BiPredicate<Object,Object> {
+public abstract class DiffCalculator implements DiffFunction, BiPredicate<Object, Object> {
 
     private Engine engine;
 
