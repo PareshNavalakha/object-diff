@@ -10,4 +10,7 @@ public interface ClassMetaDataConfiguration {
     String getClassDescription(Class clazz);
 
     String getMethodDescription(Method method);
+
+    int getMethodOrder(Method method);
+
 }

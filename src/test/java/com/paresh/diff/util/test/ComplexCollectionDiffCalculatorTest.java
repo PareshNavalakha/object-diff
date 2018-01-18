@@ -22,13 +22,22 @@ public class ComplexCollectionDiffCalculatorTest extends AbstractCalculatorTest 
         beforeEntry.setAge(20);
         ((List) before).add(beforeEntry);
 
+        TestDataProvider.Person beforeEntry2 = new TestDataProvider.Person();
+        beforeEntry2.setName("Mike");
+        beforeEntry2.setAge(22);
+        ((List) before).add(beforeEntry2);
+
 
         after = new ArrayList<TestDataProvider.Person>();
         TestDataProvider.Person afterEntry = new TestDataProvider.Person();
         afterEntry.setName("Tom");
         afterEntry.setAge(21);
-
         ((List) after).add(afterEntry);
+
+        TestDataProvider.Person afterEntry2 = new TestDataProvider.Person();
+        afterEntry2.setName("Mike");
+        afterEntry2.setAge(23);
+        ((List) after).add(afterEntry2);
 
         sameAsBefore = new ArrayList<TestDataProvider.Person>();
 
@@ -36,6 +45,11 @@ public class ComplexCollectionDiffCalculatorTest extends AbstractCalculatorTest 
         sameAsBeforeEntry.setName("Tom");
         sameAsBeforeEntry.setAge(20);
         ((List) sameAsBefore).add(sameAsBeforeEntry);
+
+        TestDataProvider.Person sameAsBeforeEntry2 = new TestDataProvider.Person();
+        sameAsBeforeEntry2.setName("Mike");
+        sameAsBeforeEntry2.setAge(22);
+        ((List) sameAsBefore).add(sameAsBeforeEntry2);
 
 
         emptyBefore = new ArrayList<TestDataProvider.Person>();

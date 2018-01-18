@@ -44,7 +44,7 @@ public class ReflectionUtil {
     }
 
     public static boolean isBaseClass(Class clazz) {
-        return clazz.isPrimitive() || clazz.getPackage().getName().startsWith(BASE_PACKAGE);
+        return clazz.isPrimitive() || (clazz.getPackage() != null && clazz.getPackage().getName().startsWith(BASE_PACKAGE));
     }
 
     public static Object getMethodResponse(Method method, Object object) {
@@ -71,6 +71,17 @@ public class ReflectionUtil {
             return iterator.next().getClass();
         }
         return null;
+    }
+
+    public static Class getCollectionElementClass(Object before, Object after) {
+        Class clazz = null;
+        if (before != null) {
+            clazz = getCollectionElementClass(before);
+        }
+        if (clazz == null && after != null) {
+            clazz = getCollectionElementClass(after);
+        }
+        return clazz;
     }
 
 }

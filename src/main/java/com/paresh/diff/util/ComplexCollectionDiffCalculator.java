@@ -30,12 +30,12 @@ public class ComplexCollectionDiffCalculator extends DiffCalculator {
         } else {
 
             before.parallelStream().forEach(object ->
-                    diffs.addAll(getDiffComputeEngine().evaluateAndExecute(object, getCorrespondingObject(object, after), description)));
+                    diffs.addAll(getDiffComputeEngine().evaluateAndExecute(object, ClassMetadataCache.getInstance().getCorrespondingObject(object, after), description)));
             Collection<Diff> temp = new ConcurrentLinkedQueue<>();
 
             //Now we need to ignore all Updated and Unchanged items
             after.parallelStream().forEach(object ->
-                    temp.addAll(getDiffComputeEngine().evaluateAndExecute(getCorrespondingObject(object, before), object, description)));
+                    temp.addAll(getDiffComputeEngine().evaluateAndExecute(ClassMetadataCache.getInstance().getCorrespondingObject(object, before), object, description)));
             if (!temp.isEmpty()) {
                 temp.removeIf(delta -> delta.getChangeType().equals(ChangeType.NO_CHANGE) || delta.getChangeType().equals(ChangeType.UPDATED));
                 diffs.addAll(temp);
@@ -44,22 +44,7 @@ public class ComplexCollectionDiffCalculator extends DiffCalculator {
         return diffs;
     }
 
-    //For complex objects, we need to compare identifiers to get the corresponding object
-    private Object getCorrespondingObject(final Object object, final Collection collection) {
-        if (object != null && !isNullOrEmpty(collection)) {
-            Object identifier = ClassMetadataCache.getInstance().getIdentifier(object);
-            if (identifier != null) {
-                Object comparisonIdentifier;
-                for (Object indexElement : collection) {
-                    comparisonIdentifier = ClassMetadataCache.getInstance().getIdentifier(indexElement);
-                    if (identifier.equals(comparisonIdentifier)) {
-                        return indexElement;
-                    }
-                }
-            }
-        }
-        return null;
-    }
+
 
     private boolean isNullOrEmpty(Collection collection) {
         return collection == null || collection.isEmpty();
@@ -95,6 +80,5 @@ public class ComplexCollectionDiffCalculator extends DiffCalculator {
         }
         throw new NotSatisfactorilyTested();
     }
-
 }
 

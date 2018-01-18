@@ -13,10 +13,10 @@ public class Diff {
     private String fieldDescription;
     private String before;
     private String after;
-    private String identifier;
+    private Object identifier;
     private Collection<Diff> childDiffs;
 
-    public Diff(ChangeType changeType, String fieldDescription, String before, String after, String identifier) {
+    public Diff(ChangeType changeType, String fieldDescription, String before, String after, Object identifier) {
         this.changeType = changeType;
         this.fieldDescription = fieldDescription;
         this.before = before;
@@ -24,7 +24,7 @@ public class Diff {
         this.identifier = identifier;
     }
 
-    public String getIdentifier() {
+    public Object getIdentifier() {
         return identifier;
     }
 
@@ -54,7 +54,7 @@ public class Diff {
 
     @Override
     public String toString() {
-        return identifier != null && !identifier.isEmpty() ? "{" +
+        return identifier != null ? "{" +
                 "changeType=" + changeType +
                 ", fieldDescription=" + fieldDescription + " " +
                 ", before=" + before +
@@ -73,7 +73,7 @@ public class Diff {
         private String fieldDescription;
         private Object before;
         private Object after;
-        private String identifier;
+        private Object identifier;
 
         public Builder isAdded() {
             this.changeType = ChangeType.ADDED;
@@ -118,10 +118,10 @@ public class Diff {
                     case DELETED:
                     case UPDATED:
                     case NO_CHANGE:
-                        identifier = ClassMetadataCache.getInstance().getIdentifierString(before);
+                        identifier = ClassMetadataCache.getInstance().getIdentifier(before);
                         break;
                     case ADDED:
-                        identifier = ClassMetadataCache.getInstance().getIdentifierString(after);
+                        identifier = ClassMetadataCache.getInstance().getIdentifier(after);
                         break;
                 }
             }

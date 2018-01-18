@@ -1,15 +1,13 @@
 package com.paresh.diff.cache;
 
-import com.paresh.diff.constants.Constants;
 import com.paresh.diff.dto.ClassMetadata;
 import com.paresh.diff.util.DiffComputeEngine;
 import com.paresh.diff.util.ReflectionUtil;
 
 import java.lang.reflect.Method;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -43,11 +41,13 @@ public class ClassMetadataCache {
             ClassMetadata classMetadata = new ClassMetadata();
             classMetadata.setClassDescription(DiffComputeEngine.getInstance().getClassMetaDataConfiguration().getClassDescription(clazz));
             List<Method> methods = ReflectionUtil.fetchAllGetterMethods(clazz);
-            Map<Method, String> classMethods = new HashMap<>();
             if (methods != null && !methods.isEmpty()) {
-                methods.forEach(method -> classMethods.put(method, DiffComputeEngine.getInstance().getClassMetaDataConfiguration().getMethodDescription(method)));
+                for (Method method : methods) {
+                    classMetadata.getDisplayOrder().add(DiffComputeEngine.getInstance().getClassMetaDataConfiguration().getMethodOrder(method));
+                    classMetadata.getMethodDescriptions().add(DiffComputeEngine.getInstance().getClassMetaDataConfiguration().getMethodDescription(method));
+                    classMetadata.getMethods().add(method);
+                }
             }
-            classMetadata.setClassAttributes(classMethods);
             //An identifier method has to be one of the Getter methods
             classMetadata.setIdentifierMethod(DiffComputeEngine.getInstance().getClassMetaDataConfiguration().getIdentifierMethod(clazz));
             classMetaDataMap.put(clazz, classMetadata);
@@ -56,9 +56,8 @@ public class ClassMetadataCache {
 
     public String getMethodDescription(Class clazz, Method method) {
         buildMetaDataIfNotAvailable(clazz);
-        return classMetaDataMap.get(clazz).getClassAttributes().get(method);
+        return classMetaDataMap.get(clazz).getMethodDescriptions().get(classMetaDataMap.get(clazz).getMethods().indexOf(method));
     }
-
 
     public String getDescription(Class clazz) {
         buildMetaDataIfNotAvailable(clazz);
@@ -76,13 +75,46 @@ public class ClassMetadataCache {
         return null;
     }
 
-    public Set<Method> getAllGetterMethods(Class clazz) {
+    public List<Method> getAllGetterMethods(Class clazz) {
         buildMetaDataIfNotAvailable(clazz);
-        return classMetaDataMap.get(clazz).getClassAttributes().keySet();
+        return classMetaDataMap.get(clazz).getMethods();
     }
 
-    public String getIdentifierString(Object object) {
-        Object returnObject = getIdentifier(object);
-        return returnObject == null ? Constants.BLANK : returnObject.toString();
+    //For complex objects, we need to compare identifiers to get the corresponding object
+    public Object getCorrespondingObject(final Object object, final Collection collection) {
+        if (object != null && !isNullOrEmpty(collection)) {
+            Object identifier = getIdentifier(object);
+            if (identifier != null) {
+                Object comparisonIdentifier;
+                for (Object indexElement : collection) {
+                    comparisonIdentifier = ClassMetadataCache.getInstance().getIdentifier(indexElement);
+                    if (identifier.equals(comparisonIdentifier)) {
+                        return indexElement;
+                    }
+                }
+            }
+        }
+        return null;
     }
+
+    //For complex objects, we need to compare identifiers to get the corresponding object
+    public Object getObjectFromIdentifier(final Object identifier, final Collection collection) {
+        if (identifier != null && !isNullOrEmpty(collection)) {
+            if (identifier != null) {
+                Object comparisonIdentifier;
+                for (Object indexElement : collection) {
+                    comparisonIdentifier = ClassMetadataCache.getInstance().getIdentifier(indexElement);
+                    if (identifier.equals(comparisonIdentifier)) {
+                        return indexElement;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    private boolean isNullOrEmpty(Collection collection) {
+        return collection == null || collection.isEmpty();
+    }
+
 }

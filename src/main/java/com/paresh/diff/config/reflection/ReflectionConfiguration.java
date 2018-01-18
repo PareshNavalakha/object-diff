@@ -3,6 +3,7 @@ package com.paresh.diff.config.reflection;
 import com.paresh.diff.annotations.Description;
 import com.paresh.diff.annotations.Identifier;
 import com.paresh.diff.annotations.Ignore;
+import com.paresh.diff.annotations.Order;
 import com.paresh.diff.config.ClassMetaDataConfiguration;
 import com.paresh.diff.util.ReflectionUtil;
 import com.paresh.diff.util.StringUtil;
@@ -60,6 +61,15 @@ public class ReflectionConfiguration implements ClassMetaDataConfiguration {
             returnValue = StringUtil.getHumanReadableNameFromCamelCase(method.getName().substring(3));
         }
         return returnValue;
+    }
+
+    @Override
+    public int getMethodOrder(Method method) {
+        if (isAnnotationPresent(method, Order.class)) {
+            Order order = method.getAnnotation(Order.class);
+            return order.order();
+        }
+        return 0;
     }
 
 }
