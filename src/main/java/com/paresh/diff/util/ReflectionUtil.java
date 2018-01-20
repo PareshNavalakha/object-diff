@@ -24,7 +24,7 @@ public class ReflectionUtil {
         return object instanceof Map;
     }
 
-    private static boolean isGetterMethod(Method method) {
+    public static boolean isGetterMethod(Method method) {
         if (!method.getName().startsWith("get") || method.getName().equals("getClass")) {
             return false;
         }
