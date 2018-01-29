@@ -84,7 +84,11 @@ public class SimpleCollectionDiffCalculator extends DiffCalculator {
             Collection collection = (Collection) object;
             if (collection != null && !collection.isEmpty()) {
                 Iterator iterator = collection.iterator();
-                return ReflectionUtil.isBaseClass(iterator.next().getClass());
+                Object element = iterator.next();
+                if(element!=null)
+                {
+                    return ReflectionUtil.isBaseClass(element.getClass());
+                }
             }
         }
         throw new NotSatisfactorilyTested();
