@@ -43,9 +43,11 @@ public class ClassMetadataCache {
             List<Method> methods = ReflectionUtil.fetchAllGetterMethods(clazz);
             if (methods != null && !methods.isEmpty()) {
                 for (Method method : methods) {
-                    classMetadata.getDisplayOrder().add(DiffComputeEngine.getInstance().getClassMetaDataConfiguration().getMethodOrder(method));
-                    classMetadata.getMethodDescriptions().add(DiffComputeEngine.getInstance().getClassMetaDataConfiguration().getMethodDescription(method));
-                    classMetadata.getMethods().add(method);
+                    if (!DiffComputeEngine.getInstance().getClassMetaDataConfiguration().isIgnoreMethod(method)) {
+                        classMetadata.getDisplayOrder().add(DiffComputeEngine.getInstance().getClassMetaDataConfiguration().getMethodOrder(method));
+                        classMetadata.getMethodDescriptions().add(DiffComputeEngine.getInstance().getClassMetaDataConfiguration().getMethodDescription(method));
+                        classMetadata.getMethods().add(method);
+                    }
                 }
             }
             //An identifier method has to be one of the Getter methods

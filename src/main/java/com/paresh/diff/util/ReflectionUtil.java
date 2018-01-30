@@ -36,7 +36,7 @@ public class ReflectionUtil {
     public static List<Method> fetchAllGetterMethods(Class clazz) {
         List<Method> methods = new LinkedList<>();
         for (Method method : clazz.getMethods()) {
-            if (isGetterMethod(method) && !DiffComputeEngine.getInstance().getClassMetaDataConfiguration().isIgnoreMethod(method)) {
+            if (isGetterMethod(method)) {
                 methods.add(method);
             }
         }
