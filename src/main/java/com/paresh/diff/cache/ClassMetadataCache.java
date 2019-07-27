@@ -1,11 +1,11 @@
 package com.paresh.diff.cache;
 
+import com.paresh.diff.calculators.DiffComputeEngine;
 import com.paresh.diff.dto.ClassMetadata;
-import com.paresh.diff.util.DiffComputeEngine;
+import com.paresh.diff.util.CollectionUtil;
 import com.paresh.diff.util.ReflectionUtil;
 
 import java.lang.reflect.Method;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -83,40 +83,29 @@ public class ClassMetadataCache {
     }
 
     //For complex objects, we need to compare identifiers to get the corresponding object
-    public Object getCorrespondingObject(final Object object, final Collection collection) {
-        if (object != null && !isNullOrEmpty(collection)) {
+    public Object getCorrespondingComplexObject(final Object object, final Map<Object, Object> map) {
+        if (object != null && !CollectionUtil.isNullOrEmpty(map)) {
             Object identifier = getIdentifier(object);
-            if (identifier != null) {
-                Object comparisonIdentifier;
-                for (Object indexElement : collection) {
-                    comparisonIdentifier = ClassMetadataCache.getInstance().getIdentifier(indexElement);
-                    if (identifier.equals(comparisonIdentifier)) {
-                        return indexElement;
-                    }
-                }
-            }
+            return map.get(identifier);
+        }
+        return null;
+    }
+
+    //For simple objects, we need to simply compare the objects
+    public Object getCorrespondingSimpleObject(Object object, final Map<Object, Object> map) {
+        if (object != null && !CollectionUtil.isNullOrEmpty(map)) {
+            return map.get(object);
         }
         return null;
     }
 
     //For complex objects, we need to compare identifiers to get the corresponding object
-    public Object getObjectFromIdentifier(final Object identifier, final Collection collection) {
-        if (identifier != null && !isNullOrEmpty(collection)) {
-            if (identifier != null) {
-                Object comparisonIdentifier;
-                for (Object indexElement : collection) {
-                    comparisonIdentifier = ClassMetadataCache.getInstance().getIdentifier(indexElement);
-                    if (identifier.equals(comparisonIdentifier)) {
-                        return indexElement;
-                    }
-                }
-            }
+    public Object getCorrespondingObjectMatchingIdentifier(final Object identifier, final Map map) {
+        if (identifier != null && !CollectionUtil.isNullOrEmpty(map)) {
+            map.get(identifier);
         }
         return null;
     }
 
-    private boolean isNullOrEmpty(Collection collection) {
-        return collection == null || collection.isEmpty();
-    }
 
 }

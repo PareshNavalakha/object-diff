@@ -1,6 +1,6 @@
 package com.paresh.diff.config;
 
-import com.paresh.diff.util.Engine;
+import com.paresh.diff.calculators.Engine;
 
 public interface EngineConfiguration {
     void apply(Engine engine);

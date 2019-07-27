@@ -1,12 +1,12 @@
-package com.paresh.diff.util;
+package com.paresh.diff.calculators;
 
 import com.paresh.diff.cache.ClassMetadataCache;
 import com.paresh.diff.dto.Diff;
+import com.paresh.diff.util.ReflectionUtil;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**

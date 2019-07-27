@@ -1,7 +1,7 @@
 package com.paresh.diff.util.test;
 
-import com.paresh.diff.util.DiffComputeEngine;
-import com.paresh.diff.util.ObjectDiffCalculator;
+import com.paresh.diff.calculators.DiffComputeEngine;
+import com.paresh.diff.calculators.ObjectDiffCalculator;
 import org.junit.BeforeClass;
 
 public class ObjectDiffCalculatorTest extends AbstractCalculatorTest {

@@ -2,8 +2,8 @@ package com.paresh.diff.util.test;
 
 import com.paresh.diff.dto.ChangeType;
 import com.paresh.diff.dto.Diff;
-import com.paresh.diff.util.DiffCalculator;
-import com.paresh.diff.util.DiffComputeEngine;
+import com.paresh.diff.calculators.DiffCalculator;
+import com.paresh.diff.calculators.DiffComputeEngine;
 import com.paresh.diff.util.ReflectionUtil;
 import org.hamcrest.CustomMatcher;
 import org.junit.Assert;

@@ -1,7 +1,9 @@
-package com.paresh.diff.util;
+package com.paresh.diff.calculators;
 
 import com.paresh.diff.dto.ChangeType;
 import com.paresh.diff.dto.Diff;
+import com.paresh.diff.util.CollectionUtil;
+import com.paresh.diff.util.ReflectionUtil;
 
 import java.util.Collection;
 import java.util.Map;
@@ -18,11 +20,11 @@ public class MapDiffCalculator extends DiffCalculator {
         Map before = (Map) beforeObject;
         Map after = (Map) afterObject;
 
-        if (isNullOrEmpty(before) && isNullOrEmpty(after)) {
+        if (CollectionUtil.isNullOrEmpty(before) && CollectionUtil.isNullOrEmpty(after)) {
             diffs.add(new Diff.Builder().hasNotChanged().setFieldDescription(description).build());
-        } else if (!isNullOrEmpty(before) && isNullOrEmpty(after)) {
+        } else if (!CollectionUtil.isNullOrEmpty(before) && CollectionUtil.isNullOrEmpty(after)) {
             before.forEach((key, value) -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(value, null, description + "::" + key)));
-        } else if (isNullOrEmpty(before) && !isNullOrEmpty(after)) {
+        } else if (CollectionUtil.isNullOrEmpty(before) && !CollectionUtil.isNullOrEmpty(after)) {
             after.forEach((key, value) -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(null, value, description + "::" + key)));
         } else {
             before.forEach((key, value) -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(value, after.get(key), description + "::" + key)));
@@ -37,10 +39,6 @@ public class MapDiffCalculator extends DiffCalculator {
 
         }
         return diffs;
-    }
-
-    private boolean isNullOrEmpty(Map map) {
-        return map == null || map.isEmpty();
     }
 
     @Override

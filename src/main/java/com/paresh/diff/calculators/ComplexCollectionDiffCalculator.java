@@ -1,12 +1,16 @@
-package com.paresh.diff.util;
+package com.paresh.diff.calculators;
 
 import com.paresh.diff.cache.ClassMetadataCache;
 import com.paresh.diff.dto.ChangeType;
 import com.paresh.diff.dto.Diff;
 import com.paresh.diff.exception.NotSatisfactorilyTested;
+import com.paresh.diff.util.CollectionUtil;
+import com.paresh.diff.util.ReflectionUtil;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
@@ -19,35 +23,45 @@ public class ComplexCollectionDiffCalculator extends DiffCalculator {
         Collection before = (Collection) beforeObject;
         Collection after = (Collection) afterObject;
 
-        if (isNullOrEmpty(before) && isNullOrEmpty(after)) {
+        if (CollectionUtil.isNullOrEmpty(before) && CollectionUtil.isNullOrEmpty(after)) {
             diffs.add(new Diff.Builder().hasNotChanged().setFieldDescription(description).build());
-        } else if (!isNullOrEmpty(before) && isNullOrEmpty(after)) {
-            before.parallelStream().forEach(object -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(object, null, description)));
+        } else if (!CollectionUtil.isNullOrEmpty(before) && CollectionUtil.isNullOrEmpty(after)) {
+            before.stream().forEach(object -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(object, null, description)));
 
-        } else if (isNullOrEmpty(before) && !isNullOrEmpty(after)) {
-            after.parallelStream().forEach(object -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(null, object, description)));
+        } else if (CollectionUtil.isNullOrEmpty(before) && !CollectionUtil.isNullOrEmpty(after)) {
+            after.stream().forEach(object -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(null, object, description)));
 
         } else {
 
-            before.parallelStream().forEach(object ->
-                    diffs.addAll(getDiffComputeEngine().evaluateAndExecute(object, ClassMetadataCache.getInstance().getCorrespondingObject(object, after), description)));
+            Map<Object, Object> beforeIdentifierMap = new HashMap<>(before.size());
+
+            Map<Object, Object> afterIdentifierMap = new HashMap<>(after.size());
+
+            before.stream().forEach(object ->
+                    beforeIdentifierMap.put(ClassMetadataCache.getInstance().getIdentifier(object), object));
+
+            after.stream().forEach(object ->
+                    afterIdentifierMap.put(ClassMetadataCache.getInstance().getIdentifier(object), object));
+
+            before.stream().forEach(object ->
+                    diffs.addAll(getDiffComputeEngine().evaluateAndExecute(
+                            object,
+                            ClassMetadataCache.getInstance().getCorrespondingComplexObject(
+                                    object, afterIdentifierMap), description)));
             Collection<Diff> temp = new ConcurrentLinkedQueue<>();
 
             //Now we need to ignore all Updated and Unchanged items
-            after.parallelStream().forEach(object ->
-                    temp.addAll(getDiffComputeEngine().evaluateAndExecute(ClassMetadataCache.getInstance().getCorrespondingObject(object, before), object, description)));
+            after.stream().forEach(object ->
+                    temp.addAll(getDiffComputeEngine().evaluateAndExecute(
+                            ClassMetadataCache.getInstance().getCorrespondingComplexObject(object, beforeIdentifierMap),
+                            object
+                            , description)));
             if (!temp.isEmpty()) {
                 temp.removeIf(delta -> delta.getChangeType().equals(ChangeType.NO_CHANGE) || delta.getChangeType().equals(ChangeType.UPDATED));
                 diffs.addAll(temp);
             }
         }
         return diffs;
-    }
-
-
-
-    private boolean isNullOrEmpty(Collection collection) {
-        return collection == null || collection.isEmpty();
     }
 
     @Override

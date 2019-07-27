@@ -1,6 +1,6 @@
 package com.paresh.diff.config;
 
-import com.paresh.diff.util.*;
+import com.paresh.diff.calculators.*;
 
 import java.util.HashMap;
 import java.util.Map;

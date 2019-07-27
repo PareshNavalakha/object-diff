@@ -1,4 +1,4 @@
-package com.paresh.diff.util;
+package com.paresh.diff.calculators;
 
 import com.paresh.diff.cache.ClassMetadataCache;
 import com.paresh.diff.config.ClassMetaDataConfiguration;

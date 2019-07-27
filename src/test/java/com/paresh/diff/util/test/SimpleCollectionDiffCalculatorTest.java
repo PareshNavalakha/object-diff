@@ -1,7 +1,7 @@
 package com.paresh.diff.util.test;
 
-import com.paresh.diff.util.DiffComputeEngine;
-import com.paresh.diff.util.SimpleCollectionDiffCalculator;
+import com.paresh.diff.calculators.DiffComputeEngine;
+import com.paresh.diff.calculators.SimpleCollectionDiffCalculator;
 import org.junit.BeforeClass;
 
 import java.util.ArrayList;
