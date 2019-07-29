@@ -102,7 +102,7 @@ public class ClassMetadataCache {
     //For complex objects, we need to compare identifiers to get the corresponding object
     public Object getCorrespondingObjectMatchingIdentifier(final Object identifier, final Map map) {
         if (identifier != null && !CollectionUtil.isNullOrEmpty(map)) {
-            map.get(identifier);
+            return map.get(identifier);
         }
         return null;
     }
