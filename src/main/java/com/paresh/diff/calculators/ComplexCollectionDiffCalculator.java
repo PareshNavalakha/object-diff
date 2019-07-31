@@ -26,10 +26,10 @@ public class ComplexCollectionDiffCalculator extends DiffCalculator {
         if (CollectionUtil.isNullOrEmpty(before) && CollectionUtil.isNullOrEmpty(after)) {
             diffs.add(new Diff.Builder().hasNotChanged().setFieldDescription(description).build());
         } else if (!CollectionUtil.isNullOrEmpty(before) && CollectionUtil.isNullOrEmpty(after)) {
-            before.stream().forEach(object -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(object, null, description)));
+            before.parallelStream().forEach(object -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(object, null, description)));
 
         } else if (CollectionUtil.isNullOrEmpty(before) && !CollectionUtil.isNullOrEmpty(after)) {
-            after.stream().forEach(object -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(null, object, description)));
+            after.parallelStream().forEach(object -> diffs.addAll(getDiffComputeEngine().evaluateAndExecute(null, object, description)));
 
         } else {
 
@@ -37,13 +37,13 @@ public class ComplexCollectionDiffCalculator extends DiffCalculator {
 
             Map<Object, Object> afterIdentifierMap = new HashMap<>(after.size());
 
-            before.stream().forEach(object ->
+            before.parallelStream().forEach(object ->
                     beforeIdentifierMap.put(ClassMetadataCache.getInstance().getIdentifier(object), object));
 
-            after.stream().forEach(object ->
+            after.parallelStream().forEach(object ->
                     afterIdentifierMap.put(ClassMetadataCache.getInstance().getIdentifier(object), object));
 
-            before.stream().forEach(object ->
+            before.parallelStream().forEach(object ->
                     diffs.addAll(getDiffComputeEngine().evaluateAndExecute(
                             object,
                             ClassMetadataCache.getInstance().getCorrespondingComplexObject(
@@ -51,7 +51,7 @@ public class ComplexCollectionDiffCalculator extends DiffCalculator {
             Collection<Diff> temp = new ConcurrentLinkedQueue<>();
 
             //Now we need to ignore all Updated and Unchanged items
-            after.stream().forEach(object ->
+            after.parallelStream().forEach(object ->
                     temp.addAll(getDiffComputeEngine().evaluateAndExecute(
                             ClassMetadataCache.getInstance().getCorrespondingComplexObject(object, beforeIdentifierMap),
                             object

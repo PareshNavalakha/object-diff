@@ -18,6 +18,10 @@ public class ReflectionConfiguration implements ClassMetaDataConfiguration {
         return isAnnotationPresent(method, Ignore.class);
     }
 
+    public boolean isDescriptionMethod(Method method) {
+        return isAnnotationPresent(method, Description.class);
+    }
+
     private boolean isAnnotationPresent(Method method, Class clazz) {
         return clazz.isAnnotation() && method.isAnnotationPresent(clazz);
     }
@@ -34,7 +38,7 @@ public class ReflectionConfiguration implements ClassMetaDataConfiguration {
     private Method getIdentifierMethod(List<Method> methods) {
         Method identifierMethod = null;
         if (methods != null) {
-            Optional<Method> methodOptional = methods.stream().filter(method -> isAnnotationPresent(method, Identifier.class)).findFirst();
+            Optional<Method> methodOptional = methods.parallelStream().filter(method -> isAnnotationPresent(method, Identifier.class)).findFirst();
             identifierMethod = methodOptional.isPresent() ? methodOptional.get() : null;
         }
         return identifierMethod;

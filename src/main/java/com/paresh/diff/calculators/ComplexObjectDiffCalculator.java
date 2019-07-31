@@ -34,7 +34,9 @@ public class ComplexObjectDiffCalculator extends DiffCalculator {
                 if (methods != null) {
                     Collection<Diff> childDiffs = new ConcurrentLinkedQueue<>();
                     diff.setChildDiffs(childDiffs);
-                    methods.stream().forEach(method -> childDiffs.addAll(getDiffComputeEngine().evaluateAndExecute(ReflectionUtil.getMethodResponse(method, before), ReflectionUtil.getMethodResponse(method, after), ClassMetadataCache.getInstance().getMethodDescription(before.getClass(), method))));
+                    methods.parallelStream()
+                            .filter(method -> !DiffComputeEngine.getInstance().getClassMetaDataConfiguration().isIgnoreMethod(method))
+                            .forEach(method -> childDiffs.addAll(getDiffComputeEngine().evaluateAndExecute(ReflectionUtil.getMethodResponse(method, before), ReflectionUtil.getMethodResponse(method, after), ClassMetadataCache.getInstance().getMethodDescription(before.getClass(), method))));
                 }
             }
         }

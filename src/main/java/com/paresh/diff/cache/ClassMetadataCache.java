@@ -43,7 +43,8 @@ public class ClassMetadataCache {
             List<Method> methods = ReflectionUtil.fetchAllGetterMethods(clazz);
             if (methods != null && !methods.isEmpty()) {
                 for (Method method : methods) {
-                    if (!DiffComputeEngine.getInstance().getClassMetaDataConfiguration().isIgnoreMethod(method)) {
+                    if (!DiffComputeEngine.getInstance().getClassMetaDataConfiguration().isIgnoreMethod(method)
+                    || DiffComputeEngine.getInstance().getClassMetaDataConfiguration().isDescriptionMethod(method)) {
                         classMetadata.getDisplayOrder().add(DiffComputeEngine.getInstance().getClassMetaDataConfiguration().getMethodOrder(method));
                         classMetadata.getMethodDescriptions().add(DiffComputeEngine.getInstance().getClassMetaDataConfiguration().getMethodDescription(method));
                         classMetadata.getMethods().add(method);

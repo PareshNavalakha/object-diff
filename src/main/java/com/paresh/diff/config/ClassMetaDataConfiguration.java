@@ -13,4 +13,5 @@ public interface ClassMetaDataConfiguration {
 
     int getMethodOrder(Method method);
 
+    boolean isDescriptionMethod(Method method);
 }
