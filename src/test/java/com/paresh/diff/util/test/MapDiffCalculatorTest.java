@@ -2,14 +2,14 @@ package com.paresh.diff.util.test;
 
 import com.paresh.diff.calculators.DiffComputeEngine;
 import com.paresh.diff.calculators.MapDiffCalculator;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class MapDiffCalculatorTest extends AbstractCalculatorTest {
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() {
         diffComputeEngine = DiffComputeEngine.getInstance();
         diffCalculator = new MapDiffCalculator();

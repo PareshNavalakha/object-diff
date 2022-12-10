@@ -2,14 +2,14 @@ package com.paresh.diff.util.test;
 
 import com.paresh.diff.calculators.ComplexCollectionDiffCalculator;
 import com.paresh.diff.calculators.DiffComputeEngine;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ComplexCollectionDiffCalculatorTest extends AbstractCalculatorTest {
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() {
         diffComputeEngine = DiffComputeEngine.getInstance();
         diffCalculator = new ComplexCollectionDiffCalculator();

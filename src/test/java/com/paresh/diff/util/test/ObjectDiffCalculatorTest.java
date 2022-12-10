@@ -2,11 +2,11 @@ package com.paresh.diff.util.test;
 
 import com.paresh.diff.calculators.DiffComputeEngine;
 import com.paresh.diff.calculators.ObjectDiffCalculator;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 
 public class ObjectDiffCalculatorTest extends AbstractCalculatorTest {
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() {
         diffComputeEngine = DiffComputeEngine.getInstance();
         diffCalculator = new ObjectDiffCalculator();
