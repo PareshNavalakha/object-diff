@@ -2,12 +2,12 @@ package com.paresh.diff.config;
 
 import com.paresh.diff.calculators.*;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class DefaultEngineConfiguration implements EngineConfiguration {
 
-    private Map<String, Object> properties = new HashMap<>();
+    private Map<String, Object> properties = new ConcurrentHashMap<>();
 
     @Override
     public void apply(Engine engine) {

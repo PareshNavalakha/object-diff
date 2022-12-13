@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
@@ -33,9 +34,9 @@ public class ComplexCollectionDiffCalculator extends DiffCalculator {
 
         } else {
 
-            Map<Object, Object> beforeIdentifierMap = new HashMap<>(before.size());
+            Map<Object, Object> beforeIdentifierMap = new ConcurrentHashMap<>(before.size());
 
-            Map<Object, Object> afterIdentifierMap = new HashMap<>(after.size());
+            Map<Object, Object> afterIdentifierMap = new ConcurrentHashMap<>(after.size());
 
             before.parallelStream().forEach(object ->
                     beforeIdentifierMap.put(ClassMetadataCache.getInstance().getIdentifier(object), object));

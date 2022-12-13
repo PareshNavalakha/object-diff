@@ -43,7 +43,7 @@ public class DiffCalculationEngineTest {
 
         printResults(differences);
         //Assert the response
-        Assertions.assertTrue(differences != null, "Response should not be null");
+        Assertions.assertNotNull(differences, "Response should not be null");
         Assertions.assertTrue(differences.getDiffs().size() > 0, "Response should contain Collection of diff objects");
 
         differences.getDiffs().forEach(diff -> {
@@ -72,10 +72,10 @@ public class DiffCalculationEngineTest {
 
         printResults(differences);
         //Assert the response
-        Assertions.assertTrue(differences != null, "Response should not be null");
+        Assertions.assertNotNull(differences, "Response should not be null");
         Assertions.assertTrue(differences.getDiffs().size() > 0, "Response should contain Collection of diff objects");
 
-        differences.getDiffs().stream().forEach(diff -> {
+        differences.getDiffs().forEach(diff -> {
             Assertions.assertEquals(ChangeType.UPDATED, diff.getChangeType(), "Change type should be Updated");
             diff.getChildDiffs().stream().filter(childDiff -> childDiff.getFieldDescription().equals("Age")).forEach(childDiff -> {
                 Assertions.assertEquals(ChangeType.UPDATED, childDiff.getChangeType(), "Change type should be Updated");
@@ -83,7 +83,6 @@ public class DiffCalculationEngineTest {
                 Assertions.assertEquals(changedAge.toString(), childDiff.getAfter(), "After Age should be same");
             });
         });
-        ;
     }
 
     @Test
@@ -104,11 +103,11 @@ public class DiffCalculationEngineTest {
 
         printResults(differences);
         //Assert the response
-        Assertions.assertTrue(differences != null, "Response should not be null");
+        Assertions.assertNotNull(differences, "Response should not be null");
         Assertions.assertTrue(differences.getDiffs().size() > 0, "Response should contain Collection of diff objects");
         differences.getDiffs().forEach(diff -> {
             Assertions.assertEquals(ChangeType.ADDED, diff.getChangeType(), "Change type should be Added");
-            Assertions.assertEquals(null, diff.getFieldDescription(), "Field description should be null");
+            Assertions.assertNull(diff.getFieldDescription(), "Field description should be null");
         });
     }
 
@@ -130,11 +129,11 @@ public class DiffCalculationEngineTest {
 
         printResults(differences);
         //Assert the response
-        Assertions.assertTrue(differences != null, "Response should not be null");
+        Assertions.assertNotNull(differences, "Response should not be null");
         Assertions.assertTrue(differences.getDiffs().size() > 0, "Response should contain Collection of diff objects");
         differences.getDiffs().forEach(diff -> {
             Assertions.assertEquals(ChangeType.DELETED, diff.getChangeType(), "Change type should be Deleted");
-            Assertions.assertEquals(null, diff.getFieldDescription(), "Field description should be null");
+            Assertions.assertNull(diff.getFieldDescription(), "Field description should be null");
         });
     }
 
@@ -154,24 +153,27 @@ public class DiffCalculationEngineTest {
 
         printResults(differences);
         //Assert the response
-        Assertions.assertTrue(differences != null, "Response should not be null");
+        Assertions.assertNotNull(differences, "Response should not be null");
         Assertions.assertTrue(differences.getDiffs().size() > 0, "Response should contain Collection of diff objects");
 
-        differences.getDiffs().stream().forEach(diff -> {
+        differences.getDiffs().forEach(diff -> {
             Assertions.assertEquals(ChangeType.UPDATED, diff.getChangeType(), "Change type should be Updated");
             diff.getChildDiffs().forEach(childDiff -> {
-                if (childDiff.getFieldDescription().equals("Age")) {
-                    Assertions.assertEquals(ChangeType.UPDATED, childDiff.getChangeType(), "Change type should be Updated");
-                    Assertions.assertEquals(age.toString(), childDiff.getBefore(), "Before Age should be same");
-                    Assertions.assertEquals(changedAge.toString(), childDiff.getAfter(), "After Age should be same");
-                } else if (childDiff.getFieldDescription().equals("Name")) {
-                    Assertions.assertEquals(ChangeType.NO_CHANGE, childDiff.getChangeType(), "Change type should be No Change");
-                } else if (childDiff.getFieldDescription().equals("Attributes")) {
-                    Assertions.assertEquals(ChangeType.NO_CHANGE, childDiff.getChangeType(), "Change type should be No Change");
+                switch (childDiff.getFieldDescription()) {
+                    case "Age":
+                        Assertions.assertEquals(ChangeType.UPDATED, childDiff.getChangeType(), "Change type should be Updated");
+                        Assertions.assertEquals(age.toString(), childDiff.getBefore(), "Before Age should be same");
+                        Assertions.assertEquals(changedAge.toString(), childDiff.getAfter(), "After Age should be same");
+                        break;
+                    case "Name":
+                        Assertions.assertEquals(ChangeType.NO_CHANGE, childDiff.getChangeType(), "Change type should be No Change");
+                        break;
+                    case "Attributes":
+                        Assertions.assertEquals(ChangeType.NO_CHANGE, childDiff.getChangeType(), "Change type should be No Change");
+                        break;
                 }
             });
         });
-        ;
     }
 
     @Test

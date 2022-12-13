@@ -54,8 +54,6 @@ public abstract class AbstractCalculatorTest {
 
     @Test
     public void testUpdate() {
-        /*assumeThat(before, customMatcher);
-        assumeThat(after, customMatcher);*/
 
         Collection<Diff> diffs = diffCalculator.apply(before, after, null);
         Assertions.assertNotNull(diffs, "Response should be non-null");

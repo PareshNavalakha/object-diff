@@ -3,10 +3,7 @@ package com.paresh.diff.util.test;
 import com.paresh.diff.annotations.Description;
 import com.paresh.diff.annotations.Identifier;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class TestDataProvider {
 
@@ -131,7 +128,7 @@ public class TestDataProvider {
 
             Address address = (Address) o;
 
-            return city != null ? city.equals(address.city) : address.city == null;
+            return Objects.equals(city, address.city);
         }
 
         @Override
@@ -192,9 +189,9 @@ public class TestDataProvider {
 
             if (age != person.age)
                 return false;
-            if (name != null ? !name.equals(person.name) : person.name != null)
+            if (!Objects.equals(name, person.name))
                 return false;
-            return addresses != null ? addresses.equals(person.addresses) : person.addresses == null;
+            return Objects.equals(addresses, person.addresses);
         }
 
         @Override

@@ -6,7 +6,7 @@ package com.paresh.diff.dto;
 public enum ChangeType {
     UPDATED("Updated"), NO_CHANGE("Unchanged"), ADDED("New"), DELETED("Deleted");
 
-    private String description;
+    private final String description;
 
     ChangeType(String description) {
         this.description = description;
