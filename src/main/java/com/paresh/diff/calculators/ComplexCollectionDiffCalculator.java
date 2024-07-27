@@ -8,7 +8,6 @@ import com.paresh.diff.util.CollectionUtil;
 import com.paresh.diff.util.ReflectionUtil;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -92,6 +91,7 @@ public class ComplexCollectionDiffCalculator extends DiffCalculator {
                 Iterator iterator = collection.iterator();
                 return !ReflectionUtil.isBaseClass(iterator.next().getClass());
             }
+            return false;
         }
         throw new NotSatisfactorilyTested();
     }
